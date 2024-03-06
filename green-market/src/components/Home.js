@@ -1,6 +1,6 @@
 import React from "react"
 
-const GreenMarket = () => (
+const Home = () => (
   <div>
     <h1>WELCOME TO GREEN MARKET STORE</h1>
     <nav>
@@ -82,4 +82,4 @@ const GreenMarket = () => (
   </div>
 )
 
-export default GreenMarket
+export default Home;
