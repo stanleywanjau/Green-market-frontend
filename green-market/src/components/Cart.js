@@ -55,7 +55,7 @@ const Cart = () => {
           <button
             onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}
           >Clear Cart</button>
-          <button>Buy Now</button>
+          <button>Procede to checkout</button>
         </div>
       </div>
     </section>
