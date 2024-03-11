@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Search from './components/Search';
 import Footer from './components/Footer';
 import ProductDetails from './components/productdetails';
+import UserProfile from './components/profile';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -44,6 +45,7 @@ function App() {
       </div>
       <Search/>
       <Navbar/>
+      <UserProfile/>
 
         
       <Routes>
