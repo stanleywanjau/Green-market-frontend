@@ -3,12 +3,13 @@ import React, { useState, useEffect,  } from 'react';
 import axios from 'axios';
 
 import Home from './components/Home';
-import { BrowserRouter as Router, Route,  } from 'react-router-dom'; // Import BrowserRouter as Router
+import {  Route,Routes  } from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
 import Search from './components/Search';
 import Footer from './components/Footer';
+import ProductDetails from './components/productdetails';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -45,11 +46,12 @@ function App() {
       <Navbar/>
 
         
-      <Router>
+      <Routes>
   {/* Wrap your routes with Router */}
-  <Route path="/" exact render={() => <Home products={products} />} />
-  <Route path="/cart" exact render={() => <Cart />} />
-</Router>
+  <Route path="/" element={<Home products={products} />} />
+  <Route path="/cart" element={ <Cart />} />
+  <Route path='/product/:productId' element={<ProductDetails/>}/>
+</Routes>
 
     <Footer />
       </div>

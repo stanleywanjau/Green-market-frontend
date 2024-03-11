@@ -1,9 +1,16 @@
 import React from 'react'
 import { useCart } from 'react-use-cart';
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = ({products}) => {
   const { addItem, removeItem, inCart } = useCart();
+  const navigate = useNavigate();
+
+  function navigateToProductDetails(productId) {
+        navigate(`/product/${productId}`); 
+      }
+    
 
   const handleClick = (product) => {
     if (inCart(product.id)) {
@@ -21,7 +28,7 @@ const Home = ({products}) => {
   <div class="card-body">
     <h5 class="card-title">{product.name}</h5>
     <p class="card-text">{product.price}</p>
-    <a href="#" class="btn btn-primary">View details</a>
+    <a href="#" class="btn btn-primary" onClick={()=>navigateToProductDetails(product.id)}>View details</a>
     <a href="#" class="btn btn-primary">Add to Cart</a>
 
   </div>
