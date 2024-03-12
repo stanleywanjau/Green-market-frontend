@@ -77,9 +77,7 @@ function App() {
       </div>
       <Search/>
       <Navbar/>
-      <Login/>
-      <Farm/>
-      <ForgotPassword/>
+      
       {/* <UserProfile/> */}
 
         
@@ -88,6 +86,10 @@ function App() {
   <Route path="/" element={<Home products={products} />} />
   <Route path="/cart" element={ <Cart />} />
   <Route path='/product/:productId' element={<ProductDetails/>}/>
+  <Route path='/signup' element={<SignUp /> }/>
+  <Route path='/login' element={<Login /> }/>
+  <Route path='/forgot-password' element={<ForgotPassword/> }/>
+  <Route path='/farmdetails' element={<Farm/> }/>
 </Routes>
 
     <Footer />

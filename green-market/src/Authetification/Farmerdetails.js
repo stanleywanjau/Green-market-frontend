@@ -14,7 +14,7 @@ function Farm() {
         const controller = new AbortController();
         const signal = controller.signal;
     
-        const response = await fetch(https://nominatim.openstreetmap.org/search?q=${value}&format=json, { signal });
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${value}&format=json`, { signal });
         const data = await response.json();
         if (!signal.aborted) {
             setSuggestions(data.map((item) => item.display_name));
@@ -39,7 +39,7 @@ function Farm() {
         fetch('/farmer-details', {
             method: 'POST',
             headers: {
-                'Authorization': Bearer ${localStorage.getItem('jwt')},
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
