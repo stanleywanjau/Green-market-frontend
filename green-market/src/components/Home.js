@@ -20,21 +20,23 @@ const Home = ({products}) => {
     }
   };
   return (
-    <>
+    
+    <div className='container-card'>
       {products.map((product) => (
 
     <div className="card" >
-  <img src={product.image} class="card-img-top" alt="..."/>
+  <img src={product.image} className="card-img-top" alt="..."/>
   <div class="card-body">
     <h5 class="card-title">{product.name}</h5>
-    <p class="card-text">{product.price}</p>
-    <a href="#" class="btn btn-primary" onClick={()=>navigateToProductDetails(product.id)}>View details</a>
-    <a href="#" class="btn btn-primary">Add to Cart</a>
+    <p class="card-text">Price :{product.price}</p>
+    <a href="#" class="btn btn-success" onClick={()=>navigateToProductDetails(product.id)}>View details</a>
+    
 
   </div>
 </div>))}
 
-    </>
+    </div>
+    
     
     
    

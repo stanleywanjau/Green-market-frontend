@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect,  } from 'react';
 import axios from 'axios';
-
+import { CartProvider } from 'react-use-cart';
 import Home from './components/Home';
 import {  Route,Routes ,useNavigate ,Link } from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
@@ -67,12 +67,14 @@ function App() {
   
 
   return (
-    <div>
+    <CartProvider>
     <div className="App">
-        <div className="header"> 
+        <div className="header">
+          
   
          
-        
+         <div className="actions">
+         <h7 className="contact-btn">Contact Us</h7>  <h7 className="sign-in-btn">Sign In / Register</h7>
         </div>
       </div>
       <Search/>
@@ -94,7 +96,7 @@ function App() {
 
     <Footer />
       </div>
-      
+      </CartProvider>
   );
 }
 
