@@ -11,6 +11,9 @@ import Search from './components/Search';
 import Footer from './components/Footer';
 import ProductDetails from './components/productdetails';
 import UserProfile from './components/profile';
+import Farm from './Authetification/Farmerdetails';
+import Login from './Authetification/signin';
+import ForgotPassword from './Authetification/ForgotPassword';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -74,6 +77,9 @@ function App() {
       </div>
       <Search/>
       <Navbar/>
+      <Login/>
+      <Farm/>
+      <ForgotPassword/>
       {/* <UserProfile/> */}
 
         
