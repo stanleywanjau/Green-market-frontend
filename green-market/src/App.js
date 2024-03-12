@@ -45,7 +45,7 @@ function App() {
       </div>
       <Search/>
       <Navbar/>
-      <UserProfile/>
+      {/* <UserProfile/> */}
 
         
       <Routes>

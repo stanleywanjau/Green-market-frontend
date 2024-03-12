@@ -1,47 +1,222 @@
-import React, {useState} from 'react'; 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const SignupForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSignup, setIsSignup] = useState(false);
+function SignUp() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [role, setRole] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [otp, setOTP] = useState("");
+  const [emailVerification, setEmailVerification] = useState('');
+  const navigate = useNavigate();
 
-  const handleToggle = () => {
-    setIsSignup(!isSignup);
-  };
-
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    //add authentication 
+    if (username && email && password && password === passwordConfirmation) {
+      fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          role,
+          password,
+          password_confirmation: passwordConfirmation,
+        }),
+      }).then((r) => {
+        if (r.ok) {
+          r.json().then((user) => {
+            setEmailVerification(user);
+          });
+        } else {
+          r.json().then((error) => {
+            setError(error.message);
+          });
+        }
+      });
+    } else {
+      const newErrors = {};
+      if (!username) {
+        newErrors.username = "Username is required";
+      }
+      if (!email) {
+        newErrors.email = "Email is required";
+      }
+      if (!password) {
+        newErrors.password = "Password is required";
+      }
+      if (password !== passwordConfirmation) {
+        newErrors.passwordConfirmation = "Passwords do not match";
+      }
+      setErrors(newErrors);
+    }
+  }
 
-    
-    console.log(`Email: ${email}, Password: ${password}, Mode: Signup`);
-  };
+  function handleOTPSubmit(e) {
+    e.preventDefault();
+    fetch("/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        role,
+        otp,
+        password,
+        password_confirmation: passwordConfirmation,
+      }),
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.access_token) {
+        localStorage.setItem('jwt',data.access_token)
+        if (role === 'farmer') {
+          navigate('/farmdetails'); 
+        } else {
+          navigate('/');
+        }
+      } else {
+        
+        setError(data.message || 'Registration failed');
+      }
+    })
+    .catch(error => {
+      // Handle fetch error
+      console.error('Error:', error);
+      setError('An error occurred. Please try again later.');
+    });
+  }
+  
+  
+  if (emailVerification) {
+    return (
+      <div className="center-screen">
+        <div className="email-verification-page">
+          <div>{emailVerification.message}</div>
+          <h2>Enter OTP</h2>
+          <form onSubmit={handleOTPSubmit}>
+            <label htmlFor="otp">OTP:</label>
+            <input
+              type="text"
+              id="otp"
+              name="otp"
+              value={otp}
+              onChange={(e) => setOTP(e.target.value)}
+              required
+            />
+            <input
+              type="hidden"
+              id="email"
+              name="email"
+              value={emailVerification.email}
+            />
+            <button type="submit">Verfiy Me</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h2>Signup</h2>
+    <div className="signup-page " >
+    <div className='form-get-in '>
+      <h2>Register</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <br />
-        <button type="submit">Signup</button>
+        <div>
+          <label htmlFor='username'>Username</label>
+          <input
+            type='text'
+            id='username'
+            name='username'
+            value={username}
+            onChange={(e)=>setUsername(e.target.value)}
+            required
+          />
+          {errors.username && <div className='error'>{errors.username}</div>}
+        </div>
+        <div>
+          <label htmlFor='email'>Email</label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+            required
+          />
+          {errors.email && <div className='error'>{errors.email}</div>}
+        </div>
+        <div>
+        <label htmlFor='Role'>Role</label>
+        <select
+            id='Role'
+            type='role'
+            name='Role'
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+        >
+            <option value=''>Select Role</option>
+            <option value='customer'>Customer</option>
+            <option value='farmer'>Farmer</option>
+        </select>
+        </div>
+        <div>
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+            required
+          />
+          {errors.password && <div className='error'>{errors.password}</div>}
+        </div>
+        <div>
+          <label htmlFor='passwordConfirmation'>Confirm Password</label>
+          <input
+            type='password'
+            id='passwordConfirmation'
+            name='passwordConfirmation'
+            value={passwordConfirmation}
+            onChange={(e)=>setPasswordConfirmation(e.target.value)}
+            required
+          />
+          {errors.passwordConfirmation && <div className='error'>{errors.passwordConfirmation}</div>}
+        </div>
+        <button class="cssbuttons-io-button">
+        SignUp
+        <div class="icon">
+            <svg
+            height="24"
+            width="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            >
+            <path d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                fill="currentColor"
+            ></path>
+            </svg>
+        </div>
+        </button>
       </form>
-      <p>
-        Already have an account?{' '}
-        <span style={{ cursor: 'pointer', color: 'blue' }} onClick={handleToggle}>
-          Login
-        </span>
-      </p>
+      <div>
+        <p>Already have an account? <Link to='/login'>Log in</Link></p>
+      </div>
+    </div>
     </div>
   );
-};
+}
 
-export default SignupForm; 
-
+export default SignUp;
