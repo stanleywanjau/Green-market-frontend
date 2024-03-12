@@ -24,12 +24,12 @@ function ProductDetails() {
     };
 
     useEffect(() => {
-        fetch(`/customerproducts/${productId}`)
+        fetch(`/product/${productId}`)
             .then(r => r.json())
             .then(data => {
                 console.log(data);
                 setProduct(data);
-                setIsInCart(cartItems.some(item => item.id === data.id));
+                setIsInCart(cartItems?.some(item => item.id === data.id));
             });
     }, [productId, cartItems]);
 

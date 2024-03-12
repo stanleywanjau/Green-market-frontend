@@ -64,7 +64,11 @@ function App() {
     checkSession();
   }, [navigate]);
 
-  
+  function handleLogout() {
+    localStorage.removeItem('jwt');
+    navigate('/');
+    window.location.reload();
+  }
 
   return (
     <CartProvider>
@@ -74,7 +78,27 @@ function App() {
   
          
          <div className="actions">
-         <h7 className="contact-btn">Contact Us</h7>  <h7 className="sign-in-btn">Sign In / Register</h7>
+         {user ? (
+            <>
+              <button 
+                className="btn btn-primary ms-2 nav-signup-btn" 
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+              
+            </>
+          ) : (
+            <>
+              
+              <Link to="/login" className="btn btn-outline-danger nav-login-btn">
+                Sign in
+              </Link>
+              <Link to="/signup" className="btn btn-primary ms-2 nav-signup-btn">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
       <Search/>
