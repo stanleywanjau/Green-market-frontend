@@ -3,7 +3,7 @@ import React, { useState, useEffect,  } from 'react';
 import axios from 'axios';
 
 import Home from './components/Home';
-import {  Route,Routes ,useNavigate } from 'react-router-dom'; // Import BrowserRouter as Router
+import {  Route,Routes ,useNavigate ,Link } from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
@@ -13,6 +13,7 @@ import ProductDetails from './components/productdetails';
 import UserProfile from './components/profile';
 import Farm from './Authetification/Farmerdetails';
 import Login from './Authetification/signin';
+import SignUp from './Authetification/signup';
 import ForgotPassword from './Authetification/ForgotPassword';
 function App() {
 
@@ -66,13 +67,12 @@ function App() {
   
 
   return (
+    <div>
     <div className="App">
-        <div className="header">
-          
+        <div className="header"> 
   
          
-         <div className="actions">
-         <p className="contact-btn">Contact Us</p>  <p className="sign-in-btn">Sign In / Register</p>
+        
         </div>
       </div>
       <Search/>
@@ -94,6 +94,7 @@ function App() {
 
     <Footer />
       </div>
+      
   );
 }
 
