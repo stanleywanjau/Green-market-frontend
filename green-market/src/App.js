@@ -3,7 +3,7 @@ import React, { useState, useEffect,  } from 'react';
 import axios from 'axios';
 
 import Home from './components/Home';
-import {  Route,Routes  } from 'react-router-dom'; // Import BrowserRouter as Router
+import {  Route,Routes ,useNavigate } from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
@@ -14,6 +14,8 @@ import UserProfile from './components/profile';
 function App() {
 
   const [products, setProducts] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   // const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
@@ -30,6 +32,33 @@ function App() {
     fetchData();
   }, []); 
   // console.log(products)
+
+  useEffect(() => {
+    const checkSession = () => {
+      fetch(`/checksession`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+        },
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to check session');
+        }
+      })
+      .then(userData => {
+        setUser(userData);
+        navigate(window.location.pathname); 
+      })
+      .catch(error => {
+        console.error('Error checking session:', error);
+      });
+    };
+
+    checkSession();
+  }, [navigate]);
 
   
 
