@@ -221,6 +221,37 @@ justify-content: space-around;
     color:white ;
     border-radius: 5px;
   }
+  .cart-below{
+    justify-content: space-between;
+    padding: 20px;
+  }
+  .cart-section{
+    margin-left: 300px;
+    padding: 30px;
+  }
+  .cart-quantity-btn{
+    margin-left: 100px;
+  }
+  .cart-empty{
+    font-size: 30px;
+    margin-left: 200px;
+    padding: 50px;
+    font-style:italic;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  #carouselExampleFade{
+    width: 50%;
+    height: 40%;
+    margin-left: 600px;
+    margin-top: 20px;
+  }
+  
+
+
+  
+    
+    
+    
   
 
 

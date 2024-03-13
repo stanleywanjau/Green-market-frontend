@@ -81,7 +81,7 @@ function App() {
          {user ? (
             <>
               <button 
-                className="btn btn-primary ms-2 nav-signup-btn" 
+                className="btn btn-outline-dark ms-2 nav-signup-btn" 
                 onClick={handleLogout}
               >
                 Logout
@@ -91,10 +91,10 @@ function App() {
           ) : (
             <>
               
-              <Link to="/login" className="btn btn-outline-danger nav-login-btn">
+              <Link to="/login" className="btn btn-outline-success nav-login-btn">
                 Sign in
               </Link>
-              <Link to="/signup" className="btn btn-primary ms-2 nav-signup-btn">
+              <Link to="/signup" className="btn btn-outline-secondary ms-2 nav-signup-btn">
                 Sign Up
               </Link>
             </>
