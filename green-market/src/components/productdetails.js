@@ -44,7 +44,7 @@ function ProductDetails() {
   };
 
   const handleReviewClick = (productId) => {
-    navigate`(/reviews/${productId});`
+    navigate(`/reviews/${productId}`);
   };
 
   const updateItemQuantity = (productId, quantity) => {
