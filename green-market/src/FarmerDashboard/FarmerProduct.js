@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+import UpdateProductForm from "./UpdateProduct";
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Farmerproduct(){
     const [products, setProducts] = useState([]);
+    const navigate=useNavigate()
 
     useEffect(() => {
         fetch("/farmerproducts", { 
@@ -15,6 +17,10 @@ function Farmerproduct(){
             setProducts(data);
         });
     }, []);
+
+    function navigateToupdateProduct(productId) {
+        navigate(`/Updateproduct/${productId}`); 
+      }
 
     const handleDelete = (productId) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
@@ -48,6 +54,7 @@ function Farmerproduct(){
                         <th style={{ backgroundColor: '#f2f2f2', borderBottom: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Quantity Available</th>
                         <th style={{ backgroundColor: '#f2f2f2', borderBottom: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Image</th>
                         <th style={{ backgroundColor: '#f2f2f2', borderBottom: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Delete</th>
+                        <th style={{ backgroundColor: '#f2f2f2', borderBottom: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Update</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,6 +66,7 @@ function Farmerproduct(){
                             <td style={{ padding: '8px' }}>{product.quantity_available}</td>
                             <td style={{ padding: '8px' }}><img src={product.image} alt={product.name} style={{width: '100px', height: '100px'}} /></td>
                             <td style={{ padding: '8px' }}> <button onClick={()=>{handleDelete(product.id)}}>Delete Product</button></td>
+                            <td style={{ padding: '8px' }}> <button onClick={()=>{navigateToupdateProduct(product.id)}}>edit</button></td>
                         </tr>
                     ))}
                 </tbody>

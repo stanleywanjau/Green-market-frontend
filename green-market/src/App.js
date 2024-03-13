@@ -17,6 +17,7 @@ import SignUp from './Authetification/signup';
 import ForgotPassword from './Authetification/ForgotPassword';
 import Farmerproduct from './FarmerDashboard/FarmerProduct';
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
+import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -120,6 +121,7 @@ function App() {
   <Route path='/farmdetails' element={<Farm/> }/>
   <Route path='/farmerproduct' element={<Farmerproduct/> }/>
   <Route path='/addproduct' element={<AddProductForm/> }/>
+  <Route path='/Updateproduct/:productId' element={<UpdateProductForm/>}/>
 </Routes>
 
     <Footer />
