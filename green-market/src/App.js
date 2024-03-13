@@ -10,7 +10,7 @@ import Navbar from './components/Navbar';
 import Search from './components/Search';
 import Footer from './components/Footer';
 import ProductDetails from './components/productdetails';
-import UserProfile from './components/profile';
+import Profile from './components/profile';
 import Farm from './Authetification/Farmerdetails';
 import Login from './Authetification/signin';
 import SignUp from './Authetification/signup';
@@ -116,6 +116,8 @@ function App() {
   <Route path='/login' element={<Login /> }/>
   <Route path='/forgot-password' element={<ForgotPassword/> }/>
   <Route path='/farmdetails' element={<Farm/> }/>
+  <Route path='/profile' element={<Profile/> }/> 
+
 </Routes>
 
     <Footer />
