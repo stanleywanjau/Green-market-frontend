@@ -1,4 +1,5 @@
 import React from 'react'
+import { AiOutlineFacebook,AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai';
 
 const Footer = () => {
     return (
@@ -42,13 +43,13 @@ const Footer = () => {
             <div className="sb_footer-links-div">
               <h4>Comming Soon on</h4>
               
-                <p>facebook</p>
+                <p><AiOutlineFacebook size={"2rem"}></AiOutlineFacebook></p>
              
               
-                <p>instsgram</p>
+                <p><AiOutlineInstagram size={"2rem"}></AiOutlineInstagram></p>
               
               
-                <p>X</p>
+                <p><AiOutlineTwitter  style={{ marginRight: "20px" }} size={"2rem"}></AiOutlineTwitter></p>
            
             </div>
             <div className="sb_footer-below">

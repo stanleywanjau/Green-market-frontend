@@ -1,6 +1,20 @@
 import React from 'react'
+import  { useState, useEffect } from 'react';
 
-const Navbar = () => {
+
+const Navbar = ({ onCategoryChange,  }) => {
+  const [selectedCategory, setSelectedCategory] = useState('');
+  
+  
+  
+  
+  
+  const handleCategoryChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedCategory(selectedValue);
+    onCategoryChange(selectedValue);
+  };
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg ">
@@ -12,7 +26,7 @@ const Navbar = () => {
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-        <a class="nav-link toggler" href="#" role="button" data-bs-toggle="" aria-expanded="" style={{color:"white"}}id = "featured">
+        <a class="nav-link toggler" href="#" role="button" onChange={handleCategoryChange} data-bs-toggle="" aria-expanded="" style={{color:"white"}}id = "featured">
              Featured Categories
           </a>
           <ul class="dropdown-menu">
@@ -25,7 +39,7 @@ const Navbar = () => {
           <a class="nav-link active" aria-current="page" href="/" style={{color:"white"}}>Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"style={{color:"white"}}>Features</a>
+          <a class="nav-link" href="/cart"style={{color:"white"}}>Cart</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#"style={{color:"white"}}>Become a farmer </a>

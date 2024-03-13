@@ -15,6 +15,8 @@ import Farm from './Authetification/Farmerdetails';
 import Login from './Authetification/signin';
 import SignUp from './Authetification/signup';
 import ForgotPassword from './Authetification/ForgotPassword';
+import Farmerproduct from './FarmerDashboard/FarmerProduct';
+import AddProductForm from './FarmerDashboard/Addfarmerproducts';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -81,7 +83,7 @@ function App() {
          {user ? (
             <>
               <button 
-                className="btn btn-primary ms-2 nav-signup-btn" 
+                className="btn btn-outline-dark ms-2 nav-signup-btn" 
                 onClick={handleLogout}
               >
                 Logout
@@ -91,10 +93,10 @@ function App() {
           ) : (
             <>
               
-              <Link to="/login" className="btn btn-outline-danger nav-login-btn">
+              <Link to="/login" className="btn btn-outline-success nav-login-btn">
                 Sign in
               </Link>
-              <Link to="/signup" className="btn btn-primary ms-2 nav-signup-btn">
+              <Link to="/signup" className="btn btn-outline-secondary ms-2 nav-signup-btn">
                 Sign Up
               </Link>
             </>
@@ -116,6 +118,8 @@ function App() {
   <Route path='/login' element={<Login /> }/>
   <Route path='/forgot-password' element={<ForgotPassword/> }/>
   <Route path='/farmdetails' element={<Farm/> }/>
+  <Route path='/farmerproduct' element={<Farmerproduct/> }/>
+  <Route path='/addproduct' element={<AddProductForm/> }/>
   <Route path='/profile' element={<Profile/> }/> 
 
 </Routes>

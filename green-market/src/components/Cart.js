@@ -13,11 +13,11 @@ const Cart = () => {
     emptyCart,
   } = useCart();
 
-  if (isEmpty) return <h1>Your Cart is Empty</h1>;
+  if (isEmpty) return <h1 className="cart-empty">Your Cart is Empty</h1>;
 
   return (
     <section >
-      <div>
+      <div className="cart-section">
         <div>
           <h5>Cart ({totalUniqueItems}) total Items: ({totalItems})</h5>
           <table>
@@ -26,21 +26,21 @@ const Cart = () => {
                 return (
                   <tr key={index}>
                     <td>
-                      <img src={item.image} alt={item.title} style={{ height: '6rem' }} />
+                      <img  className ="cart-image"src={item.image} alt={item.title} style={{ height: '10rem' }} />
                     </td>
                     <td>{item.title}</td>
-                    <td>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                    <td>Quantity ({item.quantity})</td>
-                    <td>
-                      <button
+                      <td>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                      <td>Quantity ({item.quantity})</td>
+                    <td >
+                      <button className="btn btn-outline-danger"
                         onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
-                      >-</button>
-                      <button
+                        >-</button>
+                      <button className="btn btn-outline-success"
                         onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
-                      >+</button>
-                      <button
+                        >+</button>
+                      <button className="btn btn-success"
                         onClick={() => removeItem(item.id)}
-                      >Remove Item</button>
+                        >Remove Item</button>
                     </td>
                   </tr>
                 );
@@ -51,11 +51,11 @@ const Cart = () => {
         <div>
           <h2>Total Price: {cartTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
         </div>
-        <div>
-          <button
+        <div className="cart-below">
+          <button className="btn btn-success"
             onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}
           >Clear Cart</button>
-          <button>Procede to checkout</button>
+          <button className="btn btn-success">Proceede to checkout</button>
         </div>
       </div>
     </section>
