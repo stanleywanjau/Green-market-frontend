@@ -1,50 +1,103 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-
-import React, { useState } from 'react';
-
-function Profile() {
+const Profile = () => {
   const [image, setImage] = useState(null);
-  const [name, setName] = useState('');
+  const [error, setError] = useState(null);
+  const [userIcon, setUserIcon] = useState(null); // State to store user icon URL
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+  useEffect(() => {
+    // Fetch user icon URL from backend when component mounts
+    const fetchUserIcon = async () => {
+      try {
+        const response = await axios.get('/user-icon'); // Adjust endpoint accordingly
+        setUserIcon(response.data.userIconUrl); // Assuming response contains userIconUrl
+      } catch (error) {
+        setError(error.response.data.message);
+      }
+    };
+
+    fetchUserIcon();
+
+    // Clean up function to prevent memory leaks
+    return () => {
+      setUserIcon(null); // Clear userIcon state when component unmounts
+    };
+  }, []);
+
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
   };
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
+  const handleImageUpload = async () => {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    try {
+      const response = await axios.post('/uploadimage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // POST request to create a new user
-    if (!name) {
-      const response = await axios.post('/api/users', { image });
-      console.log(response);
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await axios.delete('/delete-account');
+      console.log(response.data);
+      // Redirect to login page or perform any other action after account deletion
+    } catch (error) {
+      setError(error.response.data.message);
     }
+  };
 
-    // PUT request to update an existing user
-    if (name && image) {
-      const response = await axios.put(`/api/users/${name}`, { image });
-      console.log(response);
+  const handleImageUpdate = async () => {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    try {
+      const response = await axios.put('/updateimage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      setError(error.response.data.message);
     }
+  };
 
-    // DELETE request to delete an account
-    if (name && !image) {
-      const response = await axios.delete(`/api/users/${name}`);
-      console.log(response);
+  const handleImageDelete = async () => {
+    try {
+      const response = await axios.delete('/deleteimage');
+      console.log(response.data);
+    } catch (error) {
+      setError(error.response.data.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="file" onChange={handleImageChange} />
-      <input type="text" value={name} onChange={handleNameChange} />
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <h2>Your Profile</h2>
+      {userIcon && <img src={userIcon} alt="User Icon" />} {/* Display user icon */}
+      <div>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <button onClick={handleImageUpload}>Upload Image</button>
+      </div>
+      <div>
+        <button onClick={handleDeleteAccount}>Delete Account</button>
+      </div>
+      <div>
+        <button onClick={handleImageUpdate}>Update Image</button>
+        <button onClick={handleImageDelete}>Delete Image</button>
+      </div>
+      {error && <p>{error}</p>}
+    </div>
   );
-}
+};
 
 export default Profile;
-
-
