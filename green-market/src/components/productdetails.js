@@ -37,7 +37,7 @@ function ProductDetails() {
         <CartProvider>
         <div className='product-details-container'>
             <img src={product.image} className='product-image' />
-            <div className='product-details'>
+            <div className='product-details'  style ={{marginLeft:"100px"}}>
                 <h3 className='product-title'>{product.name}</h3>
                 <div className='product-category'>Category: {product.category}</div>
                 <div className='product-price'>KES{product.price}</div>
