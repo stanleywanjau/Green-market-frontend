@@ -17,6 +17,7 @@ import SignUp from './Authetification/signup';
 import ForgotPassword from './Authetification/ForgotPassword';
 import Farmerproduct from './FarmerDashboard/FarmerProduct';
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
+import ReviewComponent from './components/ReviewComponent';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -113,13 +114,15 @@ function App() {
   {/* Wrap your routes with Router */}
   <Route path="/" element={<Home products={products} />} />
   <Route path="/cart" element={ <Cart />} />
-  <Route path='/product/:productId' element={<ProductDetails/>}/>
+  <Route path='/product/:productId' element={<ProductDetails products={products}/>}/>
   <Route path='/signup' element={<SignUp /> }/>
   <Route path='/login' element={<Login /> }/>
   <Route path='/forgot-password' element={<ForgotPassword/> }/>
   <Route path='/farmdetails' element={<Farm/> }/>
   <Route path='/farmerproduct' element={<Farmerproduct/> }/>
   <Route path='/addproduct' element={<AddProductForm/> }/>
+  <Route path='/reviews' element={<ReviewComponent/> }/>
+  
 </Routes>
 
     <Footer />

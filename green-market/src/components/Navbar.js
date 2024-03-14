@@ -42,7 +42,7 @@ const Navbar = ({ onCategoryChange,  }) => {
           <a class="nav-link" href="/cart"style={{color:"white"}}>Cart</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"style={{color:"white"}}>Become a farmer </a>
+          <a class="nav-link" href=""style={{color:"white"}}>Become a farmer </a>
         </li>
       </ul>
      

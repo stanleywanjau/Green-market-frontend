@@ -7,7 +7,7 @@ import { Carousel } from 'bootstrap';
 const Home = ({products}) => {
   const { addItem, removeItem, inCart } = useCart();
   const navigate = useNavigate();
-
+ 
   function navigateToProductDetails(productId) {
         navigate(`/product/${productId}`); 
       }
