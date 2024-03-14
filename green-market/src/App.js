@@ -114,7 +114,7 @@ function App() {
   {/* Wrap your routes with Router */}
   <Route path="/" element={<Home products={products} />} />
   <Route path="/cart" element={ <Cart />} />
-  <Route path='/product/:productId' element={<ProductDetails/>}/>
+  <Route path='/product/:productId' element={<ProductDetails products={products}/>}/>
   <Route path='/signup' element={<SignUp /> }/>
   <Route path='/login' element={<Login /> }/>
   <Route path='/forgot-password' element={<ForgotPassword/> }/>
