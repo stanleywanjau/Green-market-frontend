@@ -10,14 +10,14 @@ import Navbar from './components/Navbar';
 import Search from './components/Search';
 import Footer from './components/Footer';
 import ProductDetails from './components/productdetails';
-import UserProfile from './components/profile';
+import Profile from './components/profile';
 import Farm from './Authetification/Farmerdetails';
 import Login from './Authetification/signin';
 import SignUp from './Authetification/signup';
 import ForgotPassword from './Authetification/ForgotPassword';
 import Farmerproduct from './FarmerDashboard/FarmerProduct';
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
-import ReviewComponent from './components/ReviewComponent';
+import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 function App() {
 
   const [products, setProducts] = useState([]);
@@ -121,8 +121,9 @@ function App() {
   <Route path='/farmdetails' element={<Farm/> }/>
   <Route path='/farmerproduct' element={<Farmerproduct/> }/>
   <Route path='/addproduct' element={<AddProductForm/> }/>
-  <Route path='/reviews' element={<ReviewComponent/> }/>
-  
+  <Route path='/profile' element={<Profile/> }/> 
+
+  <Route path='/Updateproduct/:productId' element={<UpdateProductForm/>}/>
 </Routes>
 
     <Footer />
