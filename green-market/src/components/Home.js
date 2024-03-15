@@ -67,7 +67,8 @@ const Home = ({products}) => {
   <img src={product.image} className="card-img-top" alt="..."/>
   <div class="card-body">
     <h5 class="card-title">{product.name}</h5>
-    <p class="card-text">Price :{product.price}</p>
+    <div class="card-text">Price : {product.price}</div>
+    <div class="card-text">Location : {product.location}</div>
     <a href="#" class="btn btn-success" onClick={()=>navigateToProductDetails(product.id)}>View details</a>
     
     

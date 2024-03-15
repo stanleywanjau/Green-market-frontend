@@ -3,7 +3,7 @@ import  { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 
-const Navbar = ({ onCategoryChange, user }) => {
+const Navbar = ({ onCategoryChange, user ,products}) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   
   
