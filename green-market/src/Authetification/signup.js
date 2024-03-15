@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -123,6 +124,10 @@ function SignUp() {
       </div>
     );
   }
+
+  
+
+
 
   return (
     <div className="signup-page " >
