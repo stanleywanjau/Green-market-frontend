@@ -59,8 +59,8 @@ const Home = ({products}) => {
   </button>
 </div>
     
-  
-    <div className='container-card'>
+   
+    <div className='container-card' id= "container-card" size={"15rem"}>
       {products.map((product) => (
 
     <div className="card" >
@@ -70,12 +70,14 @@ const Home = ({products}) => {
     <p class="card-text">Price :{product.price}</p>
     <a href="#" class="btn btn-success" onClick={()=>navigateToProductDetails(product.id)}>View details</a>
     
-
+    
   </div>
+  
+  
 </div>))}
-
+</div>
     </div>
-    </div>
+    
     
     
    

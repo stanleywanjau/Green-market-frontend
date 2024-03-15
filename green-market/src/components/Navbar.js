@@ -2,11 +2,11 @@ import React from 'react'
 import  { useState, useEffect } from 'react';
 
 
-const Navbar = ({ onCategoryChange,  }) => {
+const Navbar = ({ onCategoryChange, onSearch ,products }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   
   
-  
+  const uniqueCategories = products ? [...new Set(products.map((product) => product.category))] : [];
   
   
   const handleCategoryChange = (e) => {
@@ -42,7 +42,7 @@ const Navbar = ({ onCategoryChange,  }) => {
           <a class="nav-link" href="/cart"style={{color:"white"}}>Cart</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=""style={{color:"white"}}>Become a farmer </a>
+          <a class="nav-link" href="#"style={{color:"white"}}>Become a farmer </a>
         </li>
       </ul>
      
