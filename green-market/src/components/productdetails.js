@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useCart } from 'react-use-cart';
 import { CartProvider } from 'react-use-cart';
 import ReviewComponent from './ReviewComponent';
+import { useNavigate } from 'react-router-dom';
+
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -12,16 +14,34 @@ function shuffleArray(array) {
     return array;
 }
 
-
-function ProductDetails({products}) {
+function ProductDetails({ products }) {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
     const { addItem, removeItem, cartItems } = useCart();
     const shuffledProducts = shuffleArray([...products]);
     const selectedProducts = shuffledProducts.slice(0, 3);
-  
-    
+
     const [isInCart, setIsInCart] = useState(false);
+    const navigate = useNavigate();
+ 
+  function navigateToProductDetails(productId) {
+        navigate(`/product/${productId}`); 
+      }
+
+    useEffect(() => {
+        fetch(`/product/${productId}`)
+            .then(r => r.json())
+            .then(data => {
+                console.log(data);
+                setProduct(data);
+                setIsInCart(cartItems?.some(item => item.id === data.id));
+            });
+    }, [productId, cartItems]);
+
+    const inCart = (productId) => {
+        return cartItems && cartItems.some(item => item.id === productId);
+    };
+    
 
     const handleClick = (product) => {
         if (isInCart) {
@@ -35,59 +55,46 @@ function ProductDetails({products}) {
         // Implement logic to update item quantity in the cart
     };
 
-    useEffect(() => {
-        fetch(`/product/${productId}`)
-            .then(r => r.json())
-            .then(data => {
-                console.log(data);
-                setProduct(data);
-                setIsInCart(cartItems?.some(item => item.id === data.id));
-            });
-    }, [productId, cartItems]);
-
     return (
         <CartProvider>
-        <div className='product-details-container'>
-            <img src={product.image} className='product-image' />
-            <div className='product-details'  style ={{marginLeft:"50px"}}>
-                <h3 className='product-title'>{product.name}</h3>
-                <div className='product-category'>Category: {product.category}</div>
-                <div className='product-price'>KES{product.price}</div>
-                <div className='product-stock'><span>stock available:</span><br />{product.quantity_available}</div>
-                <div className='product-description'><span>Description :</span><br />{product.description}</div>
-                <div className='button-container'>
-                    <div className='btn-cart'>
-                        <button
-                            className={(isInCart) ? 'btn btn-danger' : 'btn btn-success'}
-                            onClick={() => handleClick(product)}
-                        >
-                            {isInCart ? 'Remove from cart' : 'Add to cart'}
-                        </button>
-                        <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
-                        <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
+            <div className='product-details-container'>
+                <img src={product.image} className='product-image' />
+                <div className='product-details' style={{ marginLeft: "50px" }}>
+                    <h3 className='product-title'>{product.name}</h3>
+                    <div className='product-category'>Category: {product.category}</div>
+                    <div className='product-price'>KES{product.price}</div>
+                    <div className='product-stock'><span>stock available:</span><br />{product.quantity_available}</div>
+                    <div className='product-description'><span>Description :</span><br />{product.description}</div>
+                    <div className='button-container'>
+                        <div className='btn-cart'>
+                            <button
+                                className={inCart(product.id) ? 'btn btn-danger' : 'btn btn-success'}
+                                onClick={() => handleClick(product)}
+                            >
+                                {inCart(product.id) ? 'Remove from cart' : 'Add to cart'}
+                            </button>
+                            <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
+                            <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
+                        </div>
                     </div>
                 </div>
+                <div>
+                    {selectedProducts.map((product) => (
+                        <div key={product.id} style={{ marginLeft: "70px", justifyContent: "center" }} onClick={()=>navigateToProductDetails(product.id)} className="list-group">
+                            <a href="#" className="list-group-item list-group-item-action" aria-current="true">
+                                <div className="d-flex w-100 justify-content-between">
+                                    <h5 className="mb-1">{product.name}</h5>
+                                </div>
+                                <img src={product.image} className="" alt="" style={{ height: '7rem', width: "7rem" }} />
+                                <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD', marginLeft: "100px" })}</p>
+                                <small> ⭐⭐⭐⭐⭐</small>
+                                <small>{product.description}</small>
+                            </a>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div>
-  {selectedProducts.map((product ) => (
-    <div key={product.id} style={{ marginLeft: "70px", justifyContent:"center" }} className="list-group">
-      <a href="#" className="list-group-item list-group-item-action" aria-current="true">
-        <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">{product.name}</h5>
-        </div>
-            <img src={product.image} className="" alt="" style={{ height: '7rem',width:"7rem" }} />
-        <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' , marginLeft: "100px" })}</p>
-        <small> ⭐⭐⭐⭐⭐</small>
-        <small>{product.description}</small>
-      </a>
-      
-    </div>
-  ))}
-</div>
-
-
-           </div>
-           
+            
         </CartProvider>
     );
 }

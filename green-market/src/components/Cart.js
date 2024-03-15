@@ -49,9 +49,12 @@ const Cart = () => {
             </tbody>
           </table>
         </div>
-        <div>
-          <h2>Total Price: {cartTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
-        </div>
+        {cartTotal && (
+  <div>
+    <h2>Total Price: {cartTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
+  </div>
+)}
+
         <div className="cart-below">
           <button className="btn btn-success"
             onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}

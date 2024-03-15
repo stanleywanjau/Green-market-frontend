@@ -7,7 +7,7 @@ const Navbar = ({ onCategoryChange, user }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   
   
-  
+  const uniqueCategories = products ? [...new Set(products.map((product) => product.category))] : [];
   
   
   const handleCategoryChange = (e) => {

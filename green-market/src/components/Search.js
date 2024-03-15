@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { useCart } from 'react-use-cart';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 
 
 
 const Search = () => {
+  const navigate = useNavigate();
+
+  const handleCartClick = () => {
+    
+    navigate('/cart'); // Navigate to the cart page
+  };
   const {
     totalItems,
     totalUniqueItems
 
   } = useCart();
     
+  const [searchTerm, setSearchTerm] = useState('');
     
     
     
     
     
   
-  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -43,7 +54,9 @@ const Search = () => {
 
        
        <span>
-       <AiOutlineShoppingCart size={40}  className='cursor-pointer' ></AiOutlineShoppingCart>
+       <AiOutlineShoppingCart size={40}  className='cursor-pointer' onClick={handleCartClick} >
+        
+       </AiOutlineShoppingCart>
 
        {totalUniqueItems}
        </span>
