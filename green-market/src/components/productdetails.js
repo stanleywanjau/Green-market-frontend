@@ -2,12 +2,24 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useCart } from 'react-use-cart';
 import { CartProvider } from 'react-use-cart';
+import ReviewComponent from './ReviewComponent';
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 
-function ProductDetails() {
+function ProductDetails({products}) {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
     const { addItem, removeItem, cartItems } = useCart();
+    const shuffledProducts = shuffleArray([...products]);
+    const selectedProducts = shuffledProducts.slice(0, 3);
+  
     
     const [isInCart, setIsInCart] = useState(false);
 
@@ -37,7 +49,7 @@ function ProductDetails() {
         <CartProvider>
         <div className='product-details-container'>
             <img src={product.image} className='product-image' />
-            <div className='product-details'>
+            <div className='product-details'  style ={{marginLeft:"50px"}}>
                 <h3 className='product-title'>{product.name}</h3>
                 <div className='product-category'>Category: {product.category}</div>
                 <div className='product-price'>KES{product.price}</div>
@@ -56,7 +68,26 @@ function ProductDetails() {
                     </div>
                 </div>
             </div>
+            <div>
+  {selectedProducts.map((product ) => (
+    <div key={product.id} style={{ marginLeft: "70px", justifyContent:"center" }} className="list-group">
+      <a href="#" className="list-group-item list-group-item-action" aria-current="true">
+        <div className="d-flex w-100 justify-content-between">
+          <h5 className="mb-1">{product.name}</h5>
         </div>
+            <img src={product.image} className="" alt="" style={{ height: '7rem',width:"7rem" }} />
+        <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' , marginLeft: "100px" })}</p>
+        <small> ⭐⭐⭐⭐⭐</small>
+        <small>{product.description}</small>
+      </a>
+      
+    </div>
+  ))}
+</div>
+
+
+           </div>
+           
         </CartProvider>
     );
 }

@@ -242,8 +242,9 @@ justify-content: space-around;
   #carouselExampleFade{
     width: 50%;
     height: 40%;
-    margin-left: 600px;
+    margin-left: 620px;
     margin-top: 20px;
+    border-radius: 10px;
   }
   
 
@@ -418,5 +419,5 @@ justify-content: space-around;
 
   }
   @media screen and (max-width: 400px) {
-    /* Add specific styles for screens narrower than 400px if needed */
+    /* / for screens narrower than 400px if needed */ 
   }

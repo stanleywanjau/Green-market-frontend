@@ -26,19 +26,20 @@ const Cart = () => {
                 return (
                   <tr key={index}>
                     <td>
-                      <img  className ="cart-image"src={item.image} alt={item.title} style={{ height: '10rem' }} />
+                      <img  className ="cart-image"src={item.image} alt={item.title} style={{ height: '7rem',width:"7rem" }} />
                     </td>
                     <td>{item.title}</td>
-                      <td>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                      <td>Quantity ({item.quantity})</td>
+                      <td> 
+                        <p style ={{marginLeft:"100px"}}>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' , marginLeft: "100px" })}</p> </td>
+                      <td >Quantity ({item.quantity})</td>
                     <td >
-                      <button className="btn btn-outline-danger"
+                      <button className="btn btn-outline-danger" style ={{marginLeft:"250px"}}
                         onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
                         >-</button>
                       <button className="btn btn-outline-success"
                         onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
                         >+</button>
-                      <button className="btn btn-success"
+                      <button className="btn btn-success" style ={{marginLeft:"250px"}}
                         onClick={() => removeItem(item.id)}
                         >Remove Item</button>
                     </td>
@@ -55,7 +56,7 @@ const Cart = () => {
           <button className="btn btn-success"
             onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}
           >Clear Cart</button>
-          <button className="btn btn-success">Proceede to checkout</button>
+          <button className="btn btn-success" style ={{marginLeft:"750px"}}>Proceede to checkout</button>
         </div>
       </div>
     </section>
