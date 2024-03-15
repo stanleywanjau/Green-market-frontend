@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddProductForm() {
-    const [message, setMessage] = useState('');
+    
     
     const [formData, setFormData] = useState({
         name: '',
@@ -24,37 +24,87 @@ function AddProductForm() {
     };
     
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const formDataToSend = new FormData();
         for (let key in formData) {
             formDataToSend.append(key, formData[key]);
         }
+    
+        fetch('/addproduct', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            },
+            body: formDataToSend
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            data.message
+            ?   
+                toast.success(data.message,
+                    {
+                        position: "top-right",
+                        autoClose:2000,
+                        onClose: ()=>
+                        {
+                            // updateEmployeeData(data.employee_data)
+                            setFormData({
+                                        name: '',
+                                        description: '',
+                                        price: '',
+                                        quantity_available: '',
+                                        category: '',
+                                        image: null
+                                    });
+                                
+                        }
+                    })
+            :
+                toast.error(data.error,
+                    {
+                        position: "top-right",
+                        autoClose: 2000
+                    })
+                })
+            //  {
 
-        try {
-            await axios.post('/addproduct', formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`
-                }
-            });
-            setMessage(`Product added successfully`);
-            setFormData({
-                name: '',
-                description: '',
-                price: '',
-                quantity_available: '',
-                category: '',
-                image: null
-            });
-        } catch (error) {
+        //     setMessage(`Product added successfully`);
+        //     setFormData({
+        //         name: '',
+        //         description: '',
+        //         price: '',
+        //         quantity_available: '',
+        //         category: '',
+        //         image: null
+        //     });
+        // })
+        .catch(error => {
             console.error('There was a problem with your fetch operation:', error);
             // Handle error here
-        }
+        });
     };
+    
 
     return (
         <Form onSubmit={handleSubmit}>
+             <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        
+        />
             <Form.Group controlId="name">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -125,7 +175,8 @@ function AddProductForm() {
             <Button variant="primary" type="submit">
                 Add Product
             </Button>
-            {message && <p>{message}</p>}
+            
+            
         </Form>
     );
 }

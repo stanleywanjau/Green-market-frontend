@@ -1,8 +1,9 @@
 import React from 'react'
 import  { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
-const Navbar = ({ onCategoryChange,  }) => {
+const Navbar = ({ onCategoryChange, user }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   
   
@@ -17,41 +18,45 @@ const Navbar = ({ onCategoryChange,  }) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg ">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="nav-link toggler" href="#" role="button" onChange={handleCategoryChange} data-bs-toggle="" aria-expanded="" style={{color:"white"}}id = "featured">
-             Featured Categories
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+    <nav className="navbar navbar-expand-lg">
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand"></Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarText">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <a className="nav-link toggler" href="#" role="button" onChange={handleCategoryChange} data-bs-toggle="" aria-expanded="" style={{ color: "white" }} id="featured">
+                Featured Categories
+              </a>
+              <ul className="dropdown-menu">
+                <li><a className="dropdown-item" href="#">Action</a></li>
+                <li><a className="dropdown-item" href="#">Another action</a></li>
+                <li><a className="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li className="nav-item">
+              <Link to="/" className="nav-link active" style={{ color: "white" }}>Home</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/cart" className="nav-link" style={{ color: "white" }}>Cart</Link>
+            </li>
+            {user && user.role === 'farmer' ? (
+              <>
+              <li className="nav-item">
+                <Link to="/farmerproduct" className="nav-link" style={{ color: "white" }}>my product</Link>
+                </li>
+              <li className="nav-item">
+              <Link to="/farmerorder" className="nav-link" style={{ color: "white" }}>my orders</Link>
+              </li>
+              </>
+            ) : null}
           </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/" style={{color:"white"}}>Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/cart"style={{color:"white"}}>Cart</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href=""style={{color:"white"}}>Become a farmer </a>
-        </li>
-      </ul>
-     
-    </div>
+        </div>
+      </div>
+    </nav>
   </div>
-</nav>
-
-
-    </div>
   )
 }
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect,  } from 'react';
 import axios from 'axios';
 import { CartProvider } from 'react-use-cart';
 import Home from './components/Home';
-import {  Route,Routes ,useNavigate ,Link } from 'react-router-dom'; // Import BrowserRouter as Router
+import {  Route,Routes ,useNavigate ,Link ,useLocation} from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
@@ -19,27 +19,26 @@ import Farmerproduct from './FarmerDashboard/FarmerProduct';
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
 import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
-function App() {
 
+
+function App() {
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  // const [filteredProducts, setFilteredProducts] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/productslist'); 
-        //  console.log(response)
-         setProducts(response.data);
+        const response = await axios.get('/productslist');
+        setProducts(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []); 
-  // console.log(products)
+  }, []);
 
   useEffect(() => {
     const checkSession = () => {
@@ -58,7 +57,7 @@ function App() {
       })
       .then(userData => {
         setUser(userData);
-        navigate(window.location.pathname); 
+        navigate(window.location.pathname);
       })
       .catch(error => {
         console.error('Error checking session:', error);
@@ -74,64 +73,66 @@ function App() {
     window.location.reload();
   }
 
+  // Conditional rendering for navbar and other components based on the current route
+  const shouldRenderNavbar = location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgot-password';
+
   return (
     <CartProvider>
-    <div className="App">
+      <div className="App">
         <div className="header">
-          
-  
-         
-         <div className="actions">
-         {user ? (
-            <>
-              <button 
-                className="btn btn-outline-dark ms-2 nav-signup-btn" 
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-              
-            </>
-          ) : (
-            <>
-              
-              <Link to="/login" className="btn btn-outline-success nav-login-btn">
-                Sign in
-              </Link>
-              <Link to="/signup" className="btn btn-outline-secondary ms-2 nav-signup-btn">
-                Sign Up
-              </Link>
-            </>
-          )}
+          <div className="actions">
+            {user ? (
+              <>
+                <button
+                  className="btn btn-outline-dark ms-2 nav-signup-btn"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                {shouldRenderNavbar && (
+                  <>
+                    <Link to="/login" className="btn btn-outline-success nav-login-btn">
+                      Sign in
+                    </Link>
+                    <Link to="/signup" className="btn btn-outline-secondary ms-2 nav-signup-btn">
+                      Sign Up
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <Search/>
-      <Navbar/>
-      
-      {/* <UserProfile/> */}
+        {shouldRenderNavbar && <Search />}
+        {shouldRenderNavbar && <Navbar user={user} />}
 
-        
-      <Routes>
-  {/* Wrap your routes with Router */}
-  <Route path="/" element={<Home products={products} />} />
-  <Route path="/cart" element={ <Cart />} />
-  <Route path='/product/:productId' element={<ProductDetails products={products}/>}/>
-  <Route path='/signup' element={<SignUp /> }/>
-  <Route path='/login' element={<Login /> }/>
-  <Route path='/forgot-password' element={<ForgotPassword/> }/>
-  <Route path='/farmdetails' element={<Farm/> }/>
-  <Route path='/farmerproduct' element={<Farmerproduct/> }/>
-  <Route path='/addproduct' element={<AddProductForm/> }/>
-  <Route path='/profile' element={<Profile/> }/> 
-  <Route path='/farmerorder' element={<FarmerOrders/> }/> 
-  <Route path='/Updateproduct/:productId' element={<UpdateProductForm/>}/>
-</Routes>
+        <Routes>
+          <Route path="/" element={<Home products={products} />} />
+          {user && user.role === 'farmer' ? (
+            <>
+              <Route path='/addproduct' element={<AddProductForm />} />
+              <Route path='/farmerorder' element={<FarmerOrders />} />
+              <Route path='/farmerproduct' element={<Farmerproduct />} />
+              <Route path='/Updateproduct/:productId' element={<UpdateProductForm />} />
+              
+            </>
+          ) : null}
+          <Route path='/profile' element={<Profile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path='/product/:productId' element={<ProductDetails products={products} />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/farmdetails' element={<Farm />} />
+        </Routes>
 
-    <Footer />
+        <Footer />
       </div>
-      </CartProvider>
+    </CartProvider>
   );
 }
-
 
 export default App;

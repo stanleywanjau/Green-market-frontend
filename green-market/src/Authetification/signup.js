@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./Authetification.css"
+
 
 
 function SignUp() {
@@ -10,6 +12,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
+  const [contact, setContact] = useState('');
   const [otp, setOTP] = useState("");
   const [emailVerification, setEmailVerification] = useState('');
   const navigate = useNavigate();
@@ -27,6 +30,7 @@ function SignUp() {
           email,
           role,
           password,
+          contact,
           password_confirmation: passwordConfirmation,
         }),
       }).then((r) => {
@@ -130,7 +134,7 @@ function SignUp() {
 
 
   return (
-    <div className="signup-page " >
+    // <div className="signup-page " >
     <div className='form-get-in '>
       <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -174,6 +178,15 @@ function SignUp() {
             <option value='farmer'>Farmer</option>
         </select>
         </div>
+        <label htmlFor="contact">Contact</label>
+                        <input
+                            type="text"
+                            id="contact"
+                            name="contact"
+                            value={contact}
+                            onChange={(e) => setContact(e.target.value)}
+                            required
+                        />
         <div>
           <label htmlFor='password'>Password</label>
           <input
@@ -220,7 +233,7 @@ function SignUp() {
         <p>Already have an account? <Link to='/login'>Log in</Link></p>
       </div>
     </div>
-    </div>
+    // </div>
   );
 }
 

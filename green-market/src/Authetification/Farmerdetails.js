@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import {  useNavigate } from "react-router-dom";
+import "./Authetification.css"
 
 function Farm() {
     const [suggestions, setSuggestions] = useState([]);
     const [value, setValue] = useState('');
-    const [contact, setContact] = useState('');
     const [farmName, setFarmName] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate()
@@ -45,7 +45,7 @@ function Farm() {
             body: JSON.stringify({
                 location: value,
                 farm_name: farmName,
-                contact
+                
             }),
         })
         .then(r => r.json())
@@ -92,15 +92,7 @@ function Farm() {
                             renderSuggestion={renderSuggestion}
                             inputProps={inputProps}
                         />
-                        <label htmlFor="contact">Contact</label>
-                        <input
-                            type="text"
-                            id="contact"
-                            name="contact"
-                            value={contact}
-                            onChange={(e) => setContact(e.target.value)}
-                            required
-                        />
+                        
                         <button type="submit">Enter</button>
                     </form>
                 </div>
