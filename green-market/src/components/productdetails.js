@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useCart } from 'react-use-cart';
 import { CartProvider } from 'react-use-cart';
 import ReviewComponent from './ReviewComponent';
+import { useNavigate } from 'react-router-dom';
+
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -20,6 +22,11 @@ function ProductDetails({ products }) {
     const selectedProducts = shuffledProducts.slice(0, 3);
 
     const [isInCart, setIsInCart] = useState(false);
+    const navigate = useNavigate();
+ 
+  function navigateToProductDetails(productId) {
+        navigate(`/product/${productId}`); 
+      }
 
     useEffect(() => {
         fetch(`/product/${productId}`)
@@ -61,7 +68,7 @@ function ProductDetails({ products }) {
                     <div className='button-container'>
                         <div className='btn-cart'>
                             <button
-                                className={inCart(product.id) ? 'btn btn-danger' : 'btn btn-primary'}
+                                className={inCart(product.id) ? 'btn btn-danger' : 'btn btn-success'}
                                 onClick={() => handleClick(product)}
                             >
                                 {inCart(product.id) ? 'Remove from cart' : 'Add to cart'}
@@ -73,7 +80,7 @@ function ProductDetails({ products }) {
                 </div>
                 <div>
                     {selectedProducts.map((product) => (
-                        <div key={product.id} style={{ marginLeft: "70px", justifyContent: "center" }} className="list-group">
+                        <div key={product.id} style={{ marginLeft: "70px", justifyContent: "center" }} onClick={()=>navigateToProductDetails(product.id)} className="list-group">
                             <a href="#" className="list-group-item list-group-item-action" aria-current="true">
                                 <div className="d-flex w-100 justify-content-between">
                                     <h5 className="mb-1">{product.name}</h5>
