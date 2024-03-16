@@ -41,6 +41,13 @@ function ProductDetails({ products }) {
     const inCart = (productId) => {
         return cartItems && cartItems.some(item => item.id === productId);
     };
+
+    
+
+  const handleCartClick = () => {
+    
+    navigate('/cart'); // Navigate to the cart page
+  };
     
 
     const handleClick = (product) => {
@@ -73,6 +80,7 @@ function ProductDetails({ products }) {
                             >
                                 {inCart(product.id) ? 'Remove from cart' : 'Add to cart'}
                             </button>
+                            <button className='btn btn-outline-dark'  onClick={handleCartClick}>Jump to cart</button>
                             <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
                             <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
                         </div>
@@ -87,7 +95,7 @@ function ProductDetails({ products }) {
                                 </div>
                                 <img src={product.image} className="" alt="" style={{ height: '7rem', width: "7rem" }} />
                                 <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD', marginLeft: "100px" })}</p>
-                                <small> ⭐⭐⭐⭐⭐</small>
+                                <small> </small>
                                 <small>{product.description}</small>
                             </a>
                         </div>

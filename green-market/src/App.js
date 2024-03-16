@@ -19,6 +19,7 @@ import Farmerproduct from './FarmerDashboard/FarmerProduct';
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
 import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
+import Order from './components/Order';
 
 
 function App() {
@@ -84,7 +85,7 @@ function App() {
             {user ? (
               <>
                 <button
-                  className="btn btn-outline-dark ms-2 nav-signup-btn"
+                  className="btn btn-outline-secondary ms-2 nav-signup-btn"
                   onClick={handleLogout}
                 >
                   Logout
@@ -127,6 +128,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/farmdetails' element={<Farm />} />
+          <Route path='/order' element={<Order />} />
           
         </Routes>
 
