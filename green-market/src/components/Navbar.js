@@ -18,8 +18,8 @@ const Navbar = ({ onCategoryChange, user ,products}) => {
 
   return (
     <div>
-    <nav className="navbar navbar-expand-lg">
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand" >
+      <div className="container-fluid" id ="nav-container">
         <Link to="/" className="navbar-brand"></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

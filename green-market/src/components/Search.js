@@ -62,7 +62,7 @@ const Search = ({user}) => {
         className="search-input"
         
       />
-      <button type="button" class="btn btn-success">Search</button>
+      <button type="button"    class="btn btn-outlline-success">Search</button>
       
      
       <div>
