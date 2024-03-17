@@ -1,100 +1,103 @@
-import React, { useState } from 'react';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { useCart } from 'react-use-cart';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useCart } from "react-use-cart";
 
-
-
-
-
-
-
-const Search = ({user}) => {
+const Search = () => {
+  const { totalUniqueItems } = useCart();
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const [showProfile, setShowProfile] = useState(false);
-  const [showMainDiv, setShowMainDiv] = useState(true);
 
-  const handleProfileClick = () => {
-    console.log("i have been clicked");
-    setShowProfile(!showProfile); 
-  };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/productslist");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error.message);
+      }
+    };
 
-  const handleContainerClick = () => {
-    setShowProfile(false); 
-    setShowMainDiv(true); 
-  };
-
-  const handleCartClick = () => {
-    
-    navigate('/cart'); // Navigate to the cart page
-  };
-  const {
-    totalItems,
-    totalUniqueItems
-
-  } = useCart();
-    
-  const [searchTerm, setSearchTerm] = useState('');
-    
-    
-    
-    
-    
-  
+    fetchProducts();
+  }, []);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
-  }
+  };
 
-  // const handleProfileClick = () =>{
-  //   console.log('Profile image clicked!');
-  // }
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`); // Fixed the template literal
+  };
+
+  const filteredProducts =
+    searchTerm.length > 0
+      ? products.filter((product) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : [];
 
   return (
-    <>
-     <div className="search-container">
-      <a className='green'>Green</a><p className='market'>Market</p>
+    <div
+      className="search-container"
+      style={{ position: "relative", display: "flex", alignItems: "center" }}
+    >
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <a className="green" style={{ marginRight: "5px" }}>
+          Green
+        </a>
+        <p className="market">Market</p>
+      </div>
       <input
         type="text"
         placeholder="Search..."
         value={searchTerm}
         onChange={handleSearch}
         className="search-input"
-        
+        style={{ marginRight: "10px" }}
       />
-      <button   size={20}  class="btn btn-outline-light">Search</button>
-      
-     
-      <div>
-      <div className='container relative px-10 py-10 '>
-
-       
-       <span>
-       <AiOutlineShoppingCart size={30}  className='cursor-pointer' onClick={handleCartClick} >
-        
-       </AiOutlineShoppingCart>
-
-       {totalUniqueItems}
-       </span>
-       
-       </div>
-       
-       
-
-      
-
-        
-
-
-      </div>
-
-    </div> 
-    
-
-
-    </>
-      
+      <AiOutlineShoppingCart size={40} className="cursor-pointer" />
+      {totalUniqueItems}
+      {filteredProducts.length > 0 && (
+        <div
+          className="suggestions-container"
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            backgroundColor: "#ffffff",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            zIndex: 1000,
+            borderRadius: "4px",
+            overflow: "hidden",
+          }}
+        >
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              onClick={() => handleProductClick(product.id)}
+              style={{
+                padding: "10px",
+                borderBottom: "1px solid #f0f0f0",
+                cursor: "pointer",
+                backgroundColor: "#f9f9f9",
+                ":hover": {
+                  backgroundColor: "#ececec",
+                },
+              }}
+            >
+              {product.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
-}
+};
 
 export default Search;
