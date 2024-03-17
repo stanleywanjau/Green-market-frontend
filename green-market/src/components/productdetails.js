@@ -1,111 +1,102 @@
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useCart } from 'react-use-cart';
-import { CartProvider } from 'react-use-cart';
-import ReviewComponent from './ReviewComponent';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 
+const ChatComponent = ({ product_id }) => {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+  // Log product_id for debugging
+  console.log(product_id);
 
-function ProductDetails({ products }) {
-    const { productId } = useParams();
-    const [product, setProduct] = useState({});
-    const { addItem, removeItem, cartItems } = useCart();
-    const shuffledProducts = shuffleArray([...products]);
-    const selectedProducts = shuffledProducts.slice(0, 3);
-
-    const [isInCart, setIsInCart] = useState(false);
-    const navigate = useNavigate();
- 
-  function navigateToProductDetails(productId) {
-        navigate(`/product/${productId}`); 
+  const fetchMessages = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/chatsendermessages/${product_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-
-    useEffect(() => {
-        fetch(`/product/${productId}`)
-            .then(r => r.json())
-            .then(data => {
-                console.log(data);
-                setProduct(data);
-                setIsInCart(cartItems?.some(item => item.id === data.id));
-            });
-    }, [productId, cartItems]);
-
-    const inCart = (productId) => {
-        return cartItems && cartItems.some(item => item.id === productId);
-    };
-
-    
-
-  const handleCartClick = () => {
-    
-    navigate('/cart'); // Navigate to the cart page
-  };
-    
-
-    const handleClick = (product) => {
-        if (isInCart) {
-            removeItem(product.id);
-        } else {
-            addItem(product);
-        }
+      const data = await response.json();
+      setMessages(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    const updateItemQuantity = (productId, quantity) => {
-        // Implement logic to update item quantity in the cart
-    };
+  useEffect(() => {
+    if (product_id) {
+      fetchMessages();
+    }
+  }, [product_id]);
 
-    return (
-        <CartProvider>
-            <div className='product-details-container'>
-                <img src={product.image} className='product-image' />
-                <div className='product-details' style={{ marginLeft: "50px" }}>
-                    <h3 className='product-title'>{product.name}</h3>
-                    <div className='product-category'>Category: {product.category}</div>
-                    <div className='product-price'>{product.price}</div>
-                    <div className='product-stock'><span>stock available:</span><br />{product.quantity_available}</div>
-                    <div className='product-description'><span>Description :</span><br />{product.description}</div>
-                    
-                    <div className='button-container'>
-                        <div className='btn-cart'>
-                            <button
-                                className={inCart(product.id) ? 'btn btn-danger' : 'btn btn-success'}
-                                onClick={() => handleClick(product)}
-                            >
-                                {inCart(product.id) ? 'Remove from cart' : 'Add to cart'}
-                            </button>
-                            <button className='btn btn-outline-dark'  onClick={handleCartClick}>Jump to cart</button>
-                            <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
-                            <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    {selectedProducts.map((product) => (
-                        <div key={product.id} style={{ marginLeft: "70px", justifyContent: "center" }} onClick={()=>navigateToProductDetails(product.id)} className="list-group">
-                            <a href="#" className="list-group-item list-group-item-action" aria-current="true">
-                                <div className="d-flex w-100 justify-content-between">
-                                    <h5 className="mb-1">{product.name}</h5>
-                                </div>
-                                <img src={product.image} className="" alt="" style={{ height: '7rem', width: "7rem" }} />
-                                <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD', marginLeft: "100px" })}</p>
-                                <small> </small>
-                                <small>{product.description}</small>
-                            </a>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            
-        </CartProvider>
-    );
-}
+  const sendMessage = async () => {
+    if (newMessage.trim() === "") return;
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/chatsendermessages/${product_id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+        body: JSON.stringify({ message_text: newMessage }),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      setNewMessage("");
+      fetchMessages();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-export default ProductDetails;
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  };
+
+  return (
+    <div>
+      <h2>Chat about Product ID: {product_id}</h2>
+      {error && <p>{error}</p>}
+      <div>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul>
+            {messages.map((message) => (
+              <li key={message.id}>
+                <strong>
+                  {message.sender_id === "Your User ID" ? "You" : "Farmer"}:
+                </strong>
+                : {message.message_text}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Type your message..."
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
+    </div>
+  );
+};
+
+export default ChatComponent;
