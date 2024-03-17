@@ -62,7 +62,7 @@ const Search = ({user}) => {
         className="search-input"
         
       />
-      <button type="button"    class="btn btn-outline-success">Search</button>
+      <button   size={20}  class="btn btn-outline-light">Search</button>
       
      
       <div>
@@ -70,7 +70,7 @@ const Search = ({user}) => {
 
        
        <span>
-       <AiOutlineShoppingCart size={40}  className='cursor-pointer' onClick={handleCartClick} >
+       <AiOutlineShoppingCart size={30}  className='cursor-pointer' onClick={handleCartClick} >
         
        </AiOutlineShoppingCart>
 
