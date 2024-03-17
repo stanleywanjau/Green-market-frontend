@@ -87,7 +87,7 @@ const Cart = () => {
               </div>
             )}
             <div className="cart-below">
-              <button className="btn btn-success" onClick={() => ("Are you sure you want to clear the cart?") && emptyCart()}>Clear Cart</button>
+              <button className="btn btn-success" onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}>Clear Cart</button>
               <button className="btn btn-outline-secondary" onClick={()=>navigateHome()}>Countinue Shopping</button>
               <button className="btn btn-success" onClick={handleOrderClick} style={{ marginLeft: "750px" }}>Order Now</button>
             </div>
