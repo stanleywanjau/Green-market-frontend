@@ -19,6 +19,7 @@ import Farmerproduct from './FarmerDashboard/FarmerProduct';
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
 import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
+import ChatComponent from "./components/ChatComponent";
 import Order from './components/Order';
 
 
@@ -75,6 +76,12 @@ function App() {
     window.location.reload();
   }
 
+  const ChatRouteComponent = () => {
+    const { receiver, product_id } = useParams();
+
+    return <ChatComponent receiver={receiver} product_id={product_id} />;
+  };
+
   // Conditional rendering for navbar and other components based on the current route
   const shouldRenderNavbar = location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgot-password';
 
@@ -129,8 +136,14 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path="/reviews/:productId" element={<ReviewComponent />} />
           <Route path='/farmdetails' element={<Farm />} />
           <Route path='/order' element={<Order />} />
+          
+          <Route
+            path="/chatsendermessages/:product_id"
+            element={<ChatRouteComponent />}
+          />
           
         </Routes>
 
