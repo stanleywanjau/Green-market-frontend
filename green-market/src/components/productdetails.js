@@ -72,6 +72,7 @@ function ProductDetails({ products }) {
                     <div className='product-price'>KES{product.price}</div>
                     <div className='product-stock'><span>stock available:</span><br />{product.quantity_available}</div>
                     <div className='product-description'><span>Description :</span><br />{product.description}</div>
+                    
                     <div className='button-container'>
                         <div className='btn-cart'>
                             <button

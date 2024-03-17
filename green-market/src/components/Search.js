@@ -9,8 +9,20 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const Search = () => {
+const Search = ({user}) => {
   const navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false);
+  const [showMainDiv, setShowMainDiv] = useState(true);
+
+  const handleProfileClick = () => {
+    console.log("i have been clicked");
+    setShowProfile(!showProfile); 
+  };
+
+  const handleContainerClick = () => {
+    setShowProfile(false); 
+    setShowMainDiv(true); 
+  };
 
   const handleCartClick = () => {
     
@@ -33,6 +45,10 @@ const Search = () => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   }
+
+  // const handleProfileClick = () =>{
+  //   console.log('Profile image clicked!');
+  // }
 
   return (
     <>
@@ -60,7 +76,22 @@ const Search = () => {
 
        {totalUniqueItems}
        </span>
+       
        </div>
+       <div>
+          {showMainDiv && (
+            <div className='main-div' onClick={handleProfileClick}>
+              {user?.image && <img className='img' src={user.image} alt='Profile' />}
+            </div>
+          )}
+          {showProfile && (
+            <div className='profile-container' onClick={handleContainerClick}>
+              <div>{user?.username}</div>
+              <div>{user?.email}</div>
+              <div>{user?.contact}</div>
+            </div>
+          )}
+        </div>
        
 
       

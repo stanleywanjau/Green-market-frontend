@@ -40,7 +40,7 @@ function App() {
 
     fetchData();
   }, []);
-
+// console.log(user.username)
   useEffect(() => {
     const checkSession = () => {
       fetch(`/checksession`, {
@@ -70,6 +70,7 @@ function App() {
 
   function handleLogout() {
     localStorage.removeItem('jwt');
+    // setUser(null);
     navigate('/');
     window.location.reload();
   }
@@ -107,7 +108,8 @@ function App() {
             )}
           </div>
         </div>
-        {shouldRenderNavbar && <Search />}
+        {/* {shouldRenderNavbar && <Profile user={user}  />} */}
+        {shouldRenderNavbar && <Search user={user}/>}
         {shouldRenderNavbar && <Navbar user={user} />}
 
         <Routes>
@@ -121,7 +123,7 @@ function App() {
               
             </>
           ) : null}
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<Profile user={user} />} />
           <Route path="/cart" element={<Cart />} />
           <Route path='/product/:productId' element={<ProductDetails products={products} />} />
           <Route path='/signup' element={<SignUp />} />
