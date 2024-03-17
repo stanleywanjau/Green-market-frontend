@@ -1,3 +1,8 @@
+import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+
+function Profile() {
+    const [imageFile, setImageFile] = useState(null);
 const handleImageChange = (event) => {
     setImageFile(event.target.files[0]);
 };
@@ -68,3 +73,6 @@ return (
         </Button>
     </Form>
 );
+}
+
+export default Profile;
