@@ -1,17 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { useCart } from 'react-use-cart';
 import { useNavigate } from 'react-router-dom';
-import { Carousel } from 'bootstrap';
 
-
-const Home = ({products}) => {
+const Home = ({ products }) => {
   const { addItem, removeItem, inCart } = useCart();
   const navigate = useNavigate();
- 
+
   function navigateToProductDetails(productId) {
-        navigate(`/product/${productId}`); 
-      }
-    
+    navigate(`/product/${productId}`);
+  }
 
   const handleClick = (product) => {
     if (inCart(product.id)) {
@@ -20,34 +17,28 @@ const Home = ({products}) => {
       addItem(product);
     }
   };
+
   return (
-    <div className='home-page'>
-      
-     
-   
-    <div className='container-card' id= "container-card" size={"15rem"}>
+    <div className="card-container">
       {products.map((product) => (
-
-    <div className="card" >
-  <img src={product.image} className="card-img-top" alt="..."/>
-  <div class="card-body">
-    <h5 class="card-title">{product.name}</h5>
-    <div class="card-text">Price : {product.price}</div>
-    <div class="card-text">Location : {product.location}</div>
-    <a href="#" class="btn btn-success" onClick={()=>navigateToProductDetails(product.id)}>View details</a>
-    
-    
-  </div>
-  
-  
-</div>))}
-</div>
+        <div key={product.id} className="card">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="card-image"
+            style={{ width: '250px', height: '250px', objectFit: 'cover' }}
+          />
+          <div className="card-content">
+            <div>{product.name}</div>
+            <div>{product.price}</div>
+            <div>{product.category}</div>
+            <button onClick={() => navigateToProductDetails(product.id)}
+            className='btn btn-success'>more details</button>
+          </div>
+        </div>
+      ))}
     </div>
-    
-    
-    
-   
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,20 +1,6 @@
-.main-div{
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.profile-container{
-    border: 2px solid #000;
-    border-radius: 10px;
-    /* display: flex;
-    flex-direction: column; */
-    /* display: none; */
-}
-
 .img{
     border: 1px solid #000;
     border-radius: 50px;
-    height: 100px;
-    width: 100px;
+    height: 50px;
+    width: 50px;
 }

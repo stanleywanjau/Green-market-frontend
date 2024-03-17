@@ -52,7 +52,7 @@ const Search = ({user}) => {
 
   return (
     <>
-    <div className="search-container">
+     <div className="search-container">
       <a className='green'>Green</a><p className='market'>Market</p>
       <input
         type="text"
@@ -78,20 +78,7 @@ const Search = ({user}) => {
        </span>
        
        </div>
-       <div>
-          {showMainDiv && (
-            <div className='main-div' onClick={handleProfileClick}>
-              {user?.image && <img className='img' src={user.image} alt='Profile' />}
-            </div>
-          )}
-          {showProfile && (
-            <div className='profile-container' onClick={handleContainerClick}>
-              <div>{user?.username}</div>
-              <div>{user?.email}</div>
-              <div>{user?.contact}</div>
-            </div>
-          )}
-        </div>
+       
        
 
       
@@ -101,7 +88,7 @@ const Search = ({user}) => {
 
       </div>
 
-    </div>
+    </div> 
     
 
 

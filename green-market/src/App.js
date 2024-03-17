@@ -6,7 +6,7 @@ import Home from './components/Home';
 import {  Route,Routes ,useNavigate ,Link ,useLocation} from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './components/Navbar';
+import NavBar from './components/Navbar';
 import Search from './components/Search';
 import Footer from './components/Footer';
 import ProductDetails from './components/productdetails';
@@ -108,9 +108,9 @@ function App() {
             )}
           </div>
         </div>
-        {/* {shouldRenderNavbar && <Profile user={user}  />} */}
+        
         {shouldRenderNavbar && <Search user={user}/>}
-        {shouldRenderNavbar && <Navbar user={user} />}
+        {shouldRenderNavbar && <NavBar user={user} />}
 
         <Routes>
           <Route path="/" element={<Home products={products} />} />
@@ -134,7 +134,7 @@ function App() {
           
         </Routes>
 
-        <Footer />
+        {shouldRenderNavbar && <Footer />}
       </div>
     </CartProvider>
   );

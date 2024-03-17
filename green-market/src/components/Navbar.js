@@ -1,63 +1,50 @@
-import React from 'react'
-import  { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
-
-const Navbar = ({ onCategoryChange, user ,products}) => {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  
-  
-  const uniqueCategories = products ? [...new Set(products.map((product) => product.category))] : [];
-  
-  
-  const handleCategoryChange = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedCategory(selectedValue);
-    onCategoryChange(selectedValue);
-  };
-
+function NavBar({user}) {
   return (
-    <div>
-    <nav className="navbar navbar-expand" >
-      <div className="container-fluid" id ="nav-container">
-        <Link to="/" className="navbar-brand"></Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarText">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link toggler" href="#" role="button" onChange={handleCategoryChange} data-bs-toggle="" aria-expanded="" style={{ color: "white" }} id="featured">
-                Featured Categories
-              </a>
-              <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <Link to="/" className="nav-link active" style={{ color: "white" }}>Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/cart" className="nav-link" style={{ color: "white" }}>Cart</Link>
-            </li>
-            {user && user.role === 'farmer' ? (
+    <Navbar expand="lg" className="bg-success">
+      <Container>
+        <Navbar.Brand href="/">Green-Market</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <NavDropdown title="category" id="basic-nav-dropdown">
+              <NavDropdown.Item >Action</NavDropdown.Item>
+              <NavDropdown.Item >
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item >Something</NavDropdown.Item>
+              
+            </NavDropdown>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/cart">Cart</Nav.Link>
+            {user && user.role==='farmer' ?(
               <>
-              <li className="nav-item">
-                <Link to="/farmerproduct" className="nav-link" style={{ color: "white" }}>my product</Link>
-                </li>
-              <li className="nav-item">
-              <Link to="/farmerorder" className="nav-link" style={{ color: "white" }}>my orders</Link>
-              </li>
+              <Nav.Link href="/farmerproduct">MyProducts</Nav.Link>
+              <Nav.Link href="/farmerorder">MyOrder</Nav.Link>
               </>
-            ) : null}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
-  )
+            ):null}
+          <NavDropdown title={user?.image && <img className='img' src={user.image} alt='Profile' />} id="basic-nav-dropdown" > 
+          
+            <div className='profile-container' >
+              <div>Username:{user?.username}</div>
+              <div>Email:{user?.email}</div>
+              <div>contact:{user?.contact}</div>
+              <Nav.Link href="/profile">Edit profile</Nav.Link>
+            </div>
+          </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+        
+          
+          
+        
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar
+export default NavBar;

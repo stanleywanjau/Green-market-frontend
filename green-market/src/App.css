@@ -10,26 +10,26 @@
 
 
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+} */
 
 
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
 .header{
   display: flex;
   flex-direction: row;
@@ -70,34 +70,8 @@
   color: black;
 }
 
-#nav-container{
 
-  /* flex-direction: column; */
-  align-items: left;
-  justify-content: space-around;
-  align-items: left;
-  padding: 10px 200px;
-  height: 50px;
-  margin-left: 00px;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 20px;
-  /* letter-spacing: 0.5px; */
-  color:whitesmoke;
-}
-#navbarText {
-  background-color:green;
-  
-  justify-content: space-around;
-  align-items: left;
-  padding: 10px 20px;
-  height: 50px;
-  margin-left: 00px;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 20px;
-  letter-spacing: 0.5px;
-  color:whitesmoke;
-  
-}
+
 @media (maxn-width: 400px){
   .container-card {
     display: flex;
@@ -112,14 +86,7 @@
 }
 }
 @media (max-width: 768px) {
-  #navbarText {
-    margin-left: 0; 
-    height: 15px;
-    font-size: 10px;
-    letter-spacing: 0.3px;
-    padding: 10px 20px;
-    /* Remove left margin for smaller screens */
-  }
+  
   .container-fluid{
     background-color: rgb(166, 187, 166);
     display :flex;
@@ -141,13 +108,13 @@
 }
 
 @media (max-width: 576px) {
-  #navbarText {
+  /* #navbarText {
     flex-direction: column; /* Stack items vertically on smaller screens */
-    align-items: center; 
-    height: 10px;
-    font-size: 10px;
-    letter-spacing: 0;/* Center items vertically on smaller screens */
-  }
+    /* align-items: center;  */
+    /* height: 10px; */
+    /* font-size: 10px; */
+    /* letter-spacing: 0; */
+  /* } */ */
   .search-input {
     border:2px solid;
     border-radius: 5px;
@@ -229,7 +196,7 @@ justify-content: space-around;
     
     ;
   }
-.container-card {
+/* .container-card {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -238,15 +205,49 @@ justify-content: space-around;
     padding-bottom: 40px;
     width: 80%;
     padding: 30px;
-}
-.card{
+} */
+/* .card{
     flex: 0 0 calc(25% - 20px); /* Set width for each card (4 cards per row) */
-    margin-bottom: 30px; /* Adjust margin between cards */
+    /* margin-bottom: 30px;  */
+    
+  /* }  */
+  
+  /* product list  */
+  .card-image{
+      height:200px;
+    }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; 
     
   }
-.card-img-top{
-    height:350px;
+  
+  .card {
+    width: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background-color: white;
+    transition: transform 0.3s ease-in-out;
   }
+  
+  /* .card:hover {
+    transform: scale(1.05);
+  } */
+  
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-content {
+    padding: 10px;
+    
+  }
+
 svg{
     padding-left: 0%;
     align-items: end;
@@ -410,7 +411,7 @@ svg{
       font-size:44px;
       line-height: 50px;
     }
-    container-card div{
+    /* container-card div{
       font-size: 30px;
       
       margin-left: 200px;
@@ -420,7 +421,7 @@ svg{
       padding-bottom: 15px;
       padding: 10px;
        
-    }
+    } */
   }
   @media screen and (max-width:550px) {
     .sb_footer-heading h1{
@@ -466,7 +467,7 @@ svg{
       margin-left: 100px;
       margin-right: 100px;
     }
-    .container-card div{
+    /* .container-card div{
       font-size: 30px;
       
       margin-left: 150px;
@@ -476,11 +477,11 @@ svg{
       padding-bottom: 15px;
       padding: 10px;
        
-    }
+    } */
   }
 
 
-@media screen  and (max-width:550px) {
+/* @media screen  and (max-width:550px) {
   .container-card div{
     font-size: 30px;
     
@@ -493,7 +494,7 @@ svg{
      
   }
   
-}
+} */
 
 
 
