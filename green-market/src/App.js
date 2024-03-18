@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect,  } from 'react';
+import React, { useState, useEffect, useParams } from 'react';
 import axios from 'axios';
 import { CartProvider } from 'react-use-cart';
 import Home from './components/Home';
@@ -21,6 +21,7 @@ import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
 import ChatComponent from "./components/ChatComponent";
 import Order from './components/Order';
+import ReviewComponent from './components/ReviewComponent';
 
 
 function App() {
