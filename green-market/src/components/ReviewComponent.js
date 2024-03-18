@@ -4,7 +4,6 @@ import StarRatings from "react-star-ratings";
 import "./Review.css";
 
 const ReviewComponent = () => {
-  // State to store user details and reviews
   const [hasPurchased, setHasPurchased] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -32,7 +31,6 @@ const ReviewComponent = () => {
     fetchRatingCounts();
   }, [productId]);
 
-  // Function to fetch current user
   const fetchCurrentUser = async () => {
     try {
       const response = await fetch("/checksession", {
@@ -53,7 +51,6 @@ const ReviewComponent = () => {
     }
   };
 
-  // Function to submit a review
   const handleSubmit = async (productId, rating, comment) => {
     try {
       const response = await fetch("/reviews", {
@@ -81,10 +78,9 @@ const ReviewComponent = () => {
     }
   };
 
-  // Function to get reviews for a specific product
-  const fetchReviewsForProduct = async (product_id) => {
+  const fetchReviewsForProduct = async () => {
     try {
-      const response = await fetch(`/review/${product_id}`, {
+      const response = await fetch(`/review/${productId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
@@ -105,7 +101,6 @@ const ReviewComponent = () => {
     }
   };
 
-  // Function to check purchase status
   const checkPurchase = async () => {
     try {
       const response = await fetch(`/api/orders/check-purchase/${productId}`, {
@@ -126,7 +121,6 @@ const ReviewComponent = () => {
     }
   };
 
-  // Function to delete a review
   const deleteReview = async (review_id) => {
     try {
       const response = await fetch(`/deleteReview/${review_id}`, {
@@ -141,14 +135,13 @@ const ReviewComponent = () => {
       }
 
       alert("Review deleted successfully");
-      fetchReviewsForProduct(productId);
+      fetchReviewsForProduct();
     } catch (error) {
       console.error("Error deleting review:", error);
       alert("Failed to delete review");
     }
   };
 
-  // Example useEffect to fetch current user on component mount
   useEffect(() => {
     fetchCurrentUser();
     checkPurchase();
@@ -164,16 +157,15 @@ const ReviewComponent = () => {
               rating={rating}
               starRatedColor="gold"
               numberOfStars={5}
-              starDimension="15px" // Adjust size
+              starDimension="15px"
               starSpacing="2px"
-              isAggregateRating={true} // Read-only
+              isAggregateRating={true}
             />
             <span>({ratingCounts[rating] || 0})</span>
           </div>
         ))}
       </div>
       <div className="reviews-container">
-        {/* Loading and error state handling */}
         {isLoading ? (
           <p className="loading-text">Loading reviews...</p>
         ) : error ? (
@@ -182,8 +174,6 @@ const ReviewComponent = () => {
           <p className="no-reviews-text">No reviews yet.</p>
         ) : (
           <>
-            {/* Render reviews list and form only if reviews exist */}
-            {/* Review Creation Form */}
             {hasPurchased && (
               <div className="review-form">
                 <h2 className="form-heading">Add Your Review</h2>
@@ -216,14 +206,13 @@ const ReviewComponent = () => {
                 </form>
               </div>
             )}
-            {/* Reviews Display */}
             <ul className="review-list">
-              {reviews.map((review) => (
+              {reviews?.map((review) => (
                 <li key={review.id} className="review-item">
                   <h3 className="review-rating">
                     Rating:
                     <StarRatings
-                      rating={review.name}
+                      rating={review.rating}
                       starRatedColor="gold"
                       numberOfStars={5}
                       starDimension="20px"
@@ -232,8 +221,7 @@ const ReviewComponent = () => {
                     />
                   </h3>
                   <p className="review-comment">{review.comments}</p>
-                  {/* Delete button for current user's reviews */}
-                  {currentUser && review.userId === currentUser.id && (
+                  {currentUser && review.customer_id === currentUser.id && (
                     <button
                       onClick={() => deleteReview(review.id)}
                       className="delete-btn"
