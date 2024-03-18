@@ -3,7 +3,7 @@ import React, { useState, useEffect,  } from 'react';
 import axios from 'axios';
 import { CartProvider } from 'react-use-cart';
 import Home from './components/Home';
-import {  Route,Routes ,useNavigate ,Link ,useLocation} from 'react-router-dom'; // Import BrowserRouter as Router
+import {  Route,Routes ,useNavigate ,Link ,useLocation,useParams} from 'react-router-dom'; // Import BrowserRouter as Router
 import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './components/Navbar';
@@ -16,10 +16,11 @@ import Login from './Authetification/signin';
 import SignUp from './Authetification/signup';
 import ForgotPassword from './Authetification/ForgotPassword';
 import Farmerproduct from './FarmerDashboard/FarmerProduct';
+import ReviewComponent from './components/ReviewComponent'
 import AddProductForm from './FarmerDashboard/Addfarmerproducts';
 import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
-import ChatComponent from "./components/ChatComponent";
+import ChatComponent from "./components/ChatComponent.js";
 import Order from './components/Order';
 
 
