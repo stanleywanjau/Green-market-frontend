@@ -38,7 +38,8 @@ const Order = () => {
             const requestData = {
                 product_id: orderData.product_id,
                 quantity_ordered: orderData.quantity_ordered,
-                current_time: formatDate(orderData.date)
+                current_time: formatDate(orderData.date),
+                total_order: orderData.total_order
             };
     
             //  POST request to the endpoint
