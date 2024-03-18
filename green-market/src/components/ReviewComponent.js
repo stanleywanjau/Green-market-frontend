@@ -166,74 +166,70 @@ const ReviewComponent = () => {
         ))}
       </div>
       <div className="reviews-container">
-        {isLoading ? (
-          <p className="loading-text">Loading reviews...</p>
-        ) : error ? (
-          <p className="error-text">{error}</p>
-        ) : reviews.length === 0 ? (
-          <p className="no-reviews-text">No reviews yet.</p>
-        ) : (
-          <>
-            {hasPurchased && (
-              <div className="review-form">
-                <h2 className="form-heading">Add Your Review</h2>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit(productId, rating, comment);
-                  }}
-                  className="submit-form"
-                >
-                  <StarRatings
-                    rating={Number(rating)}
-                    starRatedColor="gold"
-                    changeRating={setNewRating}
-                    numberOfStars={5}
-                    name="rating"
-                    starDimension="30px"
-                    starSpacing="5px"
-                  />
-                  <textarea
-                    className="comment-textarea"
-                    value={comment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Write your review"
-                    required
-                  />
-                  <button type="submit" className="submit-btn">
-                    Submit Review
-                  </button>
-                </form>
-              </div>
-            )}
-            <ul className="review-list">
-              {reviews?.map((review) => (
-                <li key={review.id} className="review-item">
-                  <h3 className="review-rating">
-                    Rating:
-                    <StarRatings
-                      rating={review.rating}
-                      starRatedColor="gold"
-                      numberOfStars={5}
-                      starDimension="20px"
-                      starSpacing="3px"
-                      isAggregateRating={true}
-                    />
-                  </h3>
-                  <p className="review-comment">{review.comments}</p>
-                  {currentUser && review.customer_id === currentUser.id && (
-                    <button
-                      onClick={() => deleteReview(review.id)}
-                      className="delete-btn"
-                    >
-                      Delete
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </>
+        <div className="review-form">
+          {hasPurchased && (
+            <>
+              <h2 className="form-heading">Add Your Review</h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit(productId, rating, comment);
+                }}
+                className="submit-form"
+              >
+                <StarRatings
+                  rating={Number(rating)}
+                  starRatedColor="gold"
+                  changeRating={setNewRating}
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="30px"
+                  starSpacing="5px"
+                />
+                <textarea
+                  className="comment-textarea"
+                  value={comment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Write your review"
+                  required
+                />
+                <button type="submit" className="submit-btn">
+                  Submit Review
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+        <ul className="review-list">
+  {reviews.length > 0 ? (
+    reviews.map((review) => (
+      <li key={review.id} className="review-item">
+        <h3 className="review-rating">
+          Rating:
+          <StarRatings
+            rating={review.rating}
+            starRatedColor="gold"
+            numberOfStars={5}
+            starDimension="20px"
+            starSpacing="3px"
+            isAggregateRating={true}
+          />
+        </h3>
+        <p className="review-comment">{review.comments}</p>
+        {currentUser && review.customer_id === currentUser.id && (
+          <button
+            onClick={() => deleteReview(review.id)}
+            className="delete-btn"
+          >
+            Delete
+          </button>
         )}
+      </li>
+    ))
+  ) : (
+    <p className="no-reviews-text">No reviews available for this product.</p>
+  )}
+</ul>
       </div>
     </div>
   );

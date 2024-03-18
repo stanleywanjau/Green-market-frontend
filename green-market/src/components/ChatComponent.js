@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 const LiveChat = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [received, setReceived] = useState([]);
+    const [received, setReceived] = useState('');
     const { receiver_user_id } = useParams();
 
     const fetchMessages = async () => {
@@ -37,7 +37,7 @@ const LiveChat = () => {
         try {
             await axios.post(`/chatsendermessages/${receiver_user_id}`, { message_text: newMessage }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
             setNewMessage('');
-            fetchMessages();
+            // fetchMessages();
             fetchSenderMessages();
         } catch (error) {
             console.error('Error sending message:', error);
@@ -47,21 +47,30 @@ const LiveChat = () => {
     const handleDeleteMessage = async (messageId) => {
         try {
             await axios.delete(`/deletemessage/${messageId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
-            fetchMessages();
+    
+            // Update messages state by filtering out the deleted message
+            setMessages(messages.filter(message => message.id !== messageId));
+    
+            // Update received state by filtering out the deleted message
+            setReceived(received.filter(message => message.id !== messageId));
         } catch (error) {
             console.error('Error deleting message:', error);
         }
     };
-
     // Combine messages and received messages, sort them by timestamp
-    const combinedMessages = [...messages, ...received].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    const combinedMessages = [
+        ...messages,
+        ...(received ? received.filter((receivedMessage) => (
+          !messages.some((message) => message.id === receivedMessage.id)
+        )) : [])
+      ].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
     return (
         <div>
             <ListGroup>
                 {combinedMessages.map(message => (
                     <ListGroup.Item key={message.id}>
-                        <strong>{message.sender_name}</strong>: {message.message_text}
+                        <strong> {message.sender_name}</strong>: {message.message_text}
                         <Button variant="danger" onClick={() => handleDeleteMessage(message.id)}>Delete</Button>
                     </ListGroup.Item>
                 ))}

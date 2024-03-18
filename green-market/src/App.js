@@ -143,7 +143,7 @@ function App() {
           <Route path='/order' element={<Order />} />
           
           <Route
-            path="/chatsendermessages/:product_id"
+            path="/livechat/:receiver_user_id"
             element={<ChatRouteComponent />}
           />
           
