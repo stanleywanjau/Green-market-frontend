@@ -1,102 +1,79 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ListGroup, Form, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
-const ChatComponent = ({ product_id }) => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+const LiveChat = () => {
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
+    const [received, setReceived] = useState([]);
+    const { receiver_user_id } = useParams();
 
-  // Log product_id for debugging
-  console.log(product_id);
+    const fetchMessages = async () => {
+        try {
+            const response = await axios.get('/chatmessages', { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            setMessages(response.data);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    };
 
-  const fetchMessages = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/chatsendermessages/${product_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const fetchSenderMessages = async () => {
+        try {
+            const response = await axios.get('/chatsendermessages', { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            setReceived(response.data);
+        } catch (error) {
+            console.error('Error fetching sender messages:', error);
+        }
+    };
 
-  useEffect(() => {
-    if (product_id) {
-      fetchMessages();
-    }
-  }, [product_id]);
+    useEffect(() => {
+        fetchMessages();
+        fetchSenderMessages();
+    }, []);
 
-  const sendMessage = async () => {
-    if (newMessage.trim() === "") return;
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/chatsendermessages/${product_id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-        body: JSON.stringify({ message_text: newMessage }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      setNewMessage("");
-      fetchMessages();
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const handleMessageSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post(`/chatsendermessages/${receiver_user_id}`, { message_text: newMessage }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            setNewMessage('');
+            fetchMessages();
+            fetchSenderMessages();
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
-  };
+    const handleDeleteMessage = async (messageId) => {
+        try {
+            await axios.delete(`/deletemessage/${messageId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            fetchMessages();
+        } catch (error) {
+            console.error('Error deleting message:', error);
+        }
+    };
 
-  return (
-    <div>
-      <h2>Chat about Product ID: {product_id}</h2>
-      {error && <p>{error}</p>}
-      <div>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <ul>
-            {messages.map((message) => (
-              <li key={message.id}>
-                <strong>
-                  {message.sender_id === "Your User ID" ? "You" : "Farmer"}:
-                </strong>
-                : {message.message_text}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-    </div>
-  );
+    // Combine messages and received messages, sort them by timestamp
+    const combinedMessages = [...messages, ...received].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+    return (
+        <div>
+            <ListGroup>
+                {combinedMessages.map(message => (
+                    <ListGroup.Item key={message.id}>
+                        <strong>{message.sender_name}</strong>: {message.message_text}
+                        <Button variant="danger" onClick={() => handleDeleteMessage(message.id)}>Delete</Button>
+                    </ListGroup.Item>
+                ))}
+            </ListGroup>
+            <Form onSubmit={handleMessageSubmit}>
+                <Form.Group>
+                    <Form.Control type="text" placeholder="Type your message..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
+                </Form.Group>
+                <Button type="submit">Send</Button>
+            </Form>
+        </div>
+    );
 };
 
-export default ChatComponent;
+export default LiveChat;
