@@ -7,12 +7,14 @@ const Search = () => {
   const { totalUniqueItems } = useCart();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("name"); // Default to search by name
+  const [showSuggestions, setShowSuggestions] = useState(false); // State to control visibility of suggestions container
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("/productslist");
+        const response = await fetch("/productslist"); // Adjust this URL based on your backend setup
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -28,24 +30,29 @@ const Search = () => {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setShowSuggestions(true); // Show suggestions when typing
+  };
+
+  const handleSearchTypeChange = (event) => {
+    setSearchType(event.target.value);
   };
 
   const handleProductClick = (productId) => {
-    navigate(`/product/${productId}`); // Fixed the template literal
+    navigate(`/product/${productId}`); // Fix the navigate function call
+    setShowSuggestions(false); // Close suggestions container after clicking an item
   };
 
-  const filteredProducts =
-    searchTerm.length > 0
-      ? products.filter((product) =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      : [];
+  const filteredProducts = products.filter((product) => {
+    if (searchType === "name") {
+      return product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (searchType === "category") {
+      return product.category.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+    return true;
+  });
 
   return (
-    <div
-      className="search-container"
-      style={{ position: "relative", display: "flex", alignItems: "center" }}
-    >
+    <div className="search-container" style={{ position: "relative", display: "flex", alignItems: "center" }}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <a className="green" style={{ marginRight: "5px" }}>
           Green
@@ -60,9 +67,13 @@ const Search = () => {
         className="search-input"
         style={{ marginRight: "10px" }}
       />
+      <select value={searchType} onChange={handleSearchTypeChange}>
+        <option value="name">Name</option>
+        <option value="category">Category</option>
+      </select>
       <AiOutlineShoppingCart size={40} className="cursor-pointer" />
       {totalUniqueItems}
-      {filteredProducts.length > 0 && (
+      {showSuggestions && filteredProducts.length > 0 && (
         <div
           className="suggestions-container"
           style={{
@@ -86,10 +97,8 @@ const Search = () => {
                 borderBottom: "1px solid #f0f0f0",
                 cursor: "pointer",
                 backgroundColor: "#f9f9f9",
-                ":hover": {
-                  backgroundColor: "#ececec",
-                },
               }}
+              className="hover-style"
             >
               {product.name}
             </div>
