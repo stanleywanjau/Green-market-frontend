@@ -24,13 +24,12 @@ function ProductDetails({ products }) {
     const [isInCart, setIsInCart] = useState(false);
     const navigate = useNavigate();
  
-    const navigateToProductDetails = (productId) => {
+  function navigateToProductDetails(productId) {
         navigate(`/product/${productId}`); 
-    }
-    
-    const navigateToLive = (product_id) => {
-        navigate(`/chatsendermessages/${product_id}`); 
-    }
+      }
+      function navigateToLive(product_id) {
+        navigate(`/chatsendermessages/${product_id}}`); 
+      }
 
     useEffect(() => {
         fetch(`/product/${productId}`)
@@ -45,9 +44,13 @@ function ProductDetails({ products }) {
         return cartItems && cartItems.some(item => item.id === productId);
     };
 
-    const handleCartClick = () => {
-        navigate('/cart'); // Navigate to the cart page
-    };
+    
+
+  const handleCartClick = () => {
+    
+    navigate('/cart'); // Navigate to the cart page
+  };
+    
 
     const handleClick = (product) => {
         if (isInCart) {
@@ -80,8 +83,8 @@ function ProductDetails({ products }) {
                             >
                                 {inCart(product.id) ? 'Remove from cart' : 'Add to cart'}
                             </button>
-                            <button className='btn btn-success' onClick={() => navigateToLive(product.id)}>Chat with farmer</button>
-                            <button className='btn btn-outline-dark' onClick={handleCartClick}>Jump to cart</button>
+                            <button className='btn btn-success' onClick={navigateToLive}>char with famrer</button>
+                            <button className='btn btn-outline-dark'  onClick={handleCartClick}>Jump to cart</button>
                             <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
                             <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
                         </div>

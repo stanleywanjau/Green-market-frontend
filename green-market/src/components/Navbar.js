@@ -27,7 +27,12 @@ function NavBar({user}) {
               <Nav.Link href="/farmerorder">MyOrder</Nav.Link>
               </>
             ):null}
-          <NavDropdown title={user?.image && <img className='img' src={user.image} alt='Profile' />} id="basic-nav-dropdown" > 
+            {/* {user?.image && <img className='img' src={user.image} alt='Profile' />} */}
+          <NavDropdown title={user?.image ? (
+                            <img className='img-profile' src={user.image} alt="/"/>
+                            ) : (
+                            <img className='img-profile' src="https://iili.io/JVksC6Q.png" alt="/" />
+                            )} > 
           
             <div className='profile-container' >
               <div>Username:{user?.username}</div>

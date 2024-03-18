@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 const Order = () => {
     const [orderData, setOrderData] = useState(null);
@@ -13,6 +15,8 @@ const Order = () => {
         setOrderData(location.state.orderData);
       }
     }, [location.state]);
+
+    console.log(orderData)
 
     const navigate = useNavigate();
     const formatDate = (date) => {
@@ -28,17 +32,31 @@ const Order = () => {
       };
 
       const handleOrderComplete = () => {
-        // Confirm with the user before starting the order
+        // Confirm with the user before starting the orderadd
         if (window.confirm("Are you sure you want to start this order?")) {
-          // Update the order status to "started"
-          const updatedOrderData = { ...orderData, status: 'started' };
-          setOrderData(updatedOrderData);
-          // Optionally, you can send an API request to update the order status on the server
-          // Navigate back to the cart page
-        //   navigate('/cart');
+            
+            const requestData = {
+                product_id: orderData.product_id,
+                quantity_ordered: orderData.quantity_ordered,
+                current_time: formatDate(orderData.date)
+            };
+    
+            //  POST request to the endpoint
+            axios.post('/placeorder', requestData)
+                .then(response => {
+                    
+                    alert(response.data.message); 
+                    
+                    const updatedOrderData = { ...orderData, status: 'started' };
+                    setOrderData(updatedOrderData);
+                })
+                .catch(error => {
+                    // Handle error
+                    console.error('Error placing order:', error);
+                    alert('Failed to start the order. Please try again later.'); // You may replace alert with a toast notification
+                });
         }
-        
-      };
+    };
 
     return (
       <div className="container">
