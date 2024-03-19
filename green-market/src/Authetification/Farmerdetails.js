@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
-import {  useNavigate } from "react-router-dom";
-import "./Authetification.css"
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Authetification.css';
 
 function Farm() {
     const [suggestions, setSuggestions] = useState([]);
     const [value, setValue] = useState('');
     const [farmName, setFarmName] = useState('');
     const [success, setSuccess] = useState('');
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const getSuggestions = async (value) => {
-        const controller = new AbortController();
-        const signal = controller.signal;
-    
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${value}&format=json`, { signal });
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${value}&format=json`);
         const data = await response.json();
-        if (!signal.aborted) {
-            setSuggestions(data.map((item) => item.display_name));
-        }
+        setSuggestions(data.map((item) => item.display_name));
     };
 
     const onSuggestionsFetchRequested = ({ value }) => {
@@ -35,23 +32,30 @@ function Farm() {
 
     function handleFarmData(e) {
         e.preventDefault();
-        // Handle sending location data to the backend
         fetch('/farmer-details', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 location: value,
-                farm_name: farmName,
-                
-            }),
+                farm_name: farmName
+            })
         })
-        .then(r => r.json())
-        .then(data => {
+        .then((r) => r.json())
+        .then((data) => {
             setSuccess(data.message);
-            navigate('/')
+            toast.success('Farm details submitted successfully', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            navigate('/');
         });
     }
 
@@ -61,11 +65,7 @@ function Farm() {
         onChange: (_, { newValue }) => setValue(newValue)
     };
 
-    const renderSuggestion = (suggestion) => (
-        <div>
-            {suggestion}
-        </div>
-    );
+    const renderSuggestion = (suggestion) => <div>{suggestion}</div>;
 
     return (
         <>
@@ -92,11 +92,11 @@ function Farm() {
                             renderSuggestion={renderSuggestion}
                             inputProps={inputProps}
                         />
-                        
                         <button type="submit">Enter</button>
                     </form>
                 </div>
             </div>
+            <ToastContainer />
         </>
     );
 }

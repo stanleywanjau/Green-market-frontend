@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import "./Review.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReviewComponent = () => {
   const [hasPurchased, setHasPurchased] = useState(false);
@@ -72,9 +74,13 @@ const ReviewComponent = () => {
 
       alert("Review successfully posted");
       fetchReviewsForProduct();
+      setNewComment('')
+      setNewRating(0)
+      toast.success('Review successfully posted');
     } catch (error) {
       console.error("Error submitting review:", error);
       alert("Failed to submit review");
+      toast.error('Failed to submit review');
     }
   };
 
@@ -136,9 +142,11 @@ const ReviewComponent = () => {
 
       alert("Review deleted successfully");
       fetchReviewsForProduct();
+      toast.success('Review deleted successfully');
     } catch (error) {
       console.error("Error deleting review:", error);
       alert("Failed to delete review");
+      toast.error('Failed to delete review');
     }
   };
 
@@ -201,35 +209,35 @@ const ReviewComponent = () => {
           )}
         </div>
         <ul className="review-list">
-  {reviews.length > 0 ? (
-    reviews.map((review) => (
-      <li key={review.id} className="review-item">
-        <h3 className="review-rating">
-          Rating:
-          <StarRatings
-            rating={review.rating}
-            starRatedColor="gold"
-            numberOfStars={5}
-            starDimension="20px"
-            starSpacing="3px"
-            isAggregateRating={true}
-          />
-        </h3>
-        <p className="review-comment">{review.comments}</p>
-        {currentUser && review.customer_id === currentUser.id && (
-          <button
-            onClick={() => deleteReview(review.id)}
-            className="delete-btn"
-          >
-            Delete
-          </button>
-        )}
-      </li>
-    ))
-  ) : (
-    <p className="no-reviews-text">No reviews available for this product.</p>
-  )}
-</ul>
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <li key={review.id} className="review-item">
+                <h3 className="review-rating">
+                  Rating:
+                  <StarRatings
+                    rating={review.rating}
+                    starRatedColor="gold"
+                    numberOfStars={5}
+                    starDimension="20px"
+                    starSpacing="3px"
+                    isAggregateRating={true}
+                  />
+                </h3>
+                <p className="review-comment">{review.comments}</p>
+                {currentUser && review.customer_id === currentUser.id && (
+                  <button
+                    onClick={() => deleteReview(review.id)}
+                    className="delete-btn"
+                  >
+                    Delete
+                  </button>
+                )}
+              </li>
+            ))
+          ) : (
+            <p className="no-reviews-text">No reviews available for this product.</p>
+          )}
+        </ul>
       </div>
     </div>
   );
