@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import AddProductForm from "./Addfarmerproducts";
-import "./Table.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./Table.css";
 
 function Farmerproduct(){
     const [products, setProducts] = useState([]);
@@ -38,15 +40,28 @@ function Farmerproduct(){
                     throw new Error('Network response was not ok');
                 }
                 setProducts((products) => products.filter((product) => product.id !== productId));
+                toast.success('Product deleted successfully'); // Display success toast
             })
-            // .catch(error => {
-                
-            // });
+            .catch(error => {
+                console.error('Error deleting product:', error);
+                toast.error('Failed to delete product'); // Display error toast
+            });
         }
     };
 
     return (
         <>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+        />
         <Accordion >
       <Accordion.Item eventKey="0">
         <Accordion.Header>add new product</Accordion.Header>
@@ -75,8 +90,8 @@ function Farmerproduct(){
                             <td style={{ padding: '8px' }} data-label="price">{product.price}</td>
                             <td style={{ padding: '8px' }} data-label="quantity available">{product.quantity_available}</td>
                             <td style={{ padding: '8px' }} data-label="Image"><img src={product.image} alt={product.name} style={{width: '100px', height: '100px'}} /></td>
-                            <td style={{ padding: '8px' }}> <button onClick={()=>{handleDelete(product.id)}}  type="button" class="btn btn-success">Delete Product</button></td>
-                            <td style={{ padding: '8px' }} > <button onClick={()=>{navigateToupdateProduct(product.id)}}  type="button" class="btn btn-success">edit</button></td>
+                            <td style={{ padding: '8px' }}> <button onClick={()=>{handleDelete(product.id)}}  type="button" className="btn btn-success">Delete Product</button></td>
+                            <td style={{ padding: '8px' }} > <button onClick={()=>{navigateToupdateProduct(product.id)}}  type="button" className="btn btn-success">edit</button></td>
                         </tr>
                     ))}
                 </tbody>

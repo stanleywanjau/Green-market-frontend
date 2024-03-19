@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect, } from 'react';
+import { ToastContainer} from 'react-toastify';
 import axios from 'axios';
 import { CartProvider } from 'react-use-cart';
 import Home from './components/Home';
@@ -89,6 +90,18 @@ function App() {
 
   return (
     <CartProvider>
+       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        
+        />
       <div className="App">
         <div className="header">
           <div className="actions">
