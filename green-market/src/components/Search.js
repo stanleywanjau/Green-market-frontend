@@ -12,9 +12,9 @@ const Search = () => {
   const [showSuggestions, setShowSuggestions] = useState(false); // State to control visibility of suggestions container
   const navigate = useNavigate();
 
-  function navigatecart() {
-    navigate(`/cart`); 
-  }
+  // function navigatecart() {
+  //   navigate(`/cart`); 
+  // }
 
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const Search = () => {
         <option value="name">Name</option>
         <option value="category">Category</option>
       </select>
-      <AiOutlineShoppingCart size={40} className="cursor-pointer" onClick={navigatecart} />
+      <AiOutlineShoppingCart size={40} className="cursor-pointer" onClick={handleCartClick} />
       {totalUniqueItems}
       {showSuggestions && filteredProducts.length > 0 && (
         <div

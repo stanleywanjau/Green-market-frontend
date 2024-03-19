@@ -8,9 +8,8 @@ import axios from 'axios';
 const Order = () => {
     const [orderData, setOrderData] = useState(null);
     const location = useLocation(); // Access location object from React Router
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    
+   
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,13 +30,7 @@ const Order = () => {
     };
 
     const handleOrderComplete = async () => {
-        // Check if the user is logged in
-        if (!isLoggedIn) {
-            // If not logged in, redirect the user to the login page
-            navigate('/login');
-            return; // Stop further execution
-        }
-
+        
         // Confirm with the user before starting the order
         if (window.confirm("Are you sure you want to start this order?")) {
             try {
@@ -63,26 +56,7 @@ const Order = () => {
         }
     };
 
-    const handleLogin = async () => {
-        try {
-            // Make a POST request to your backend login endpoint
-            const response = await axios.post('/login', {
-                username,
-                password,
-            });
-
-            // Assuming your backend responds with a success message or token
-            // Update isLoggedIn state to true
-            setIsLoggedIn(true);
-
-            // Redirect the user to the order page
-            navigate('/order');
-        } catch (error) {
-            // Handle login error, such as displaying an error message
-            console.error('Login failed:', error);
-            alert('Login failed. Please check your credentials and try again.');
-        }
-    };
+    
 
     return (
         <div className="container">
