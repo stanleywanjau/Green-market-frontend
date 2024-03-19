@@ -44,6 +44,7 @@ function NavBar({user}) {
               <Nav.Link href="/profile">Edit profile</Nav.Link>
             </div>
           </NavDropdown>
+          <Nav.Link href="/About">About us</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         
