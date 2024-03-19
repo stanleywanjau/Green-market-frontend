@@ -22,6 +22,7 @@ import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
 import ChatComponent from "./components/ChatComponent.js";
 import Order from './components/Order';
+// import AboutPage from "./components/AboutPage.js";
 
 
 
@@ -141,7 +142,8 @@ function App() {
           <Route path="/reviews/:productId" element={<ReviewComponent />} />
           <Route path='/farmdetails' element={<Farm />} />
           <Route path='/order' element={<Order />} />
-          
+          {/* <Route path='/AboutPage' element={<AboutPage />} /> */}
+
           <Route
             path="/livechat/:receiver_user_id"
             element={<ChatRouteComponent />}

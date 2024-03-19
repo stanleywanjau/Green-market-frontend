@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useCart } from "react-use-cart";
 
+
 const Search = () => {
   const { totalUniqueItems } = useCart();
   const [products, setProducts] = useState([]);
@@ -10,6 +11,11 @@ const Search = () => {
   const [searchType, setSearchType] = useState("name"); // Default to search by name
   const [showSuggestions, setShowSuggestions] = useState(false); // State to control visibility of suggestions container
   const navigate = useNavigate();
+
+  function navigatecart() {
+    navigate(`/cart`); 
+  }
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -71,7 +77,7 @@ const Search = () => {
         <option value="name">Name</option>
         <option value="category">Category</option>
       </select>
-      <AiOutlineShoppingCart size={40} className="cursor-pointer" />
+      <AiOutlineShoppingCart size={40} className="cursor-pointer" onClick={navigatecart} />
       {totalUniqueItems}
       {showSuggestions && filteredProducts.length > 0 && (
         <div
