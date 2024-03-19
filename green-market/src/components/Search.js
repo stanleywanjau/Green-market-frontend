@@ -32,6 +32,10 @@ const Search = () => {
     setSearchTerm(event.target.value);
     setShowSuggestions(true); // Show suggestions when typing
   };
+  const handleCartClick = () => {
+    
+    navigate('/cart'); // Navigate to the cart page
+  };
 
   const handleSearchTypeChange = (event) => {
     setSearchType(event.target.value);
@@ -71,7 +75,7 @@ const Search = () => {
         <option value="name">Name</option>
         <option value="category">Category</option>
       </select>
-      <AiOutlineShoppingCart size={40} className="cursor-pointer" />
+      <AiOutlineShoppingCart size={40} className= "cursor-pointer"  onClick={handleCartClick}/>
       {totalUniqueItems}
       {showSuggestions && filteredProducts.length > 0 && (
         <div

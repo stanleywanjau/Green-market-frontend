@@ -8,6 +8,10 @@ import axios from 'axios';
 const Order = () => {
     const [orderData, setOrderData] = useState(null);
     const location = useLocation(); // Access location object from React Router
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (location.state && location.state.orderData) {
@@ -16,9 +20,6 @@ const Order = () => {
         }
     }, [location.state]);
 
-    console.log(orderData)
-
-    const navigate = useNavigate();
     const formatDate = (date) => {
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
         return new Date(date).toLocaleDateString('en-US', options).replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+)/, '$3-$1-$2 $4:$5');
@@ -29,37 +30,57 @@ const Order = () => {
         navigate('/cart');
     };
 
-    const handleOrderComplete = () => {
+    const handleOrderComplete = async () => {
+        // Check if the user is logged in
+        if (!isLoggedIn) {
+            // If not logged in, redirect the user to the login page
+            navigate('/login');
+            return; // Stop further execution
+        }
+
         // Confirm with the user before starting the order
         if (window.confirm("Are you sure you want to start this order?")) {
+            try {
+                // Prepare data to send in the request
+                const requestData = {
+                    product_id: orderData.product_id,
+                    quantity_ordered: orderData.quantity_ordered,
+                    current_time: formatDate(orderData.date),
+                    total_order: orderData.total_order,
+                };
 
-            const requestData = {
-                product_id: orderData.product_id,
-                quantity_ordered: orderData.quantity_ordered,
-                current_time: formatDate(orderData.date),
-                total_order: orderData.total_order
-            };
+                // Send POST request to the endpoint
+                const response = await axios.post('/placeorder', requestData);
+                alert(response.data.message); // You may replace alert with a toast notification
+                const updatedOrderData = { ...orderData, status: 'started' };
+                setOrderData(updatedOrderData);
+                navigate('/order'); // Navigate back to the order page after completing the order
+            } catch (error) {
+                // Handle error
+                console.error('Error placing order:', error);
+                alert('Failed to start the order. Please try again later.'); // You may replace alert with a toast notification
+            }
+        }
+    };
 
-            //  POST request to the endpoint
-            axios.post('/placeorder', requestData)
-                .then(response => {
-                    // Display success toast
-                    toast.success(response.data.message, {
-                        position: "top-right",
-                        autoClose: 2000
-                    });
+    const handleLogin = async () => {
+        try {
+            // Make a POST request to your backend login endpoint
+            const response = await axios.post('/login', {
+                username,
+                password,
+            });
 
-                    const updatedOrderData = { ...orderData, status: 'started' };
-                    setOrderData(updatedOrderData);
-                })
-                .catch(error => {
-                    // Display error toast
-                    toast.error('Failed to start the order. Please try again later.', {
-                        position: "top-right",
-                        autoClose: 2000
-                    });
-                    console.error('Error placing order:', error);
-                });
+            // Assuming your backend responds with a success message or token
+            // Update isLoggedIn state to true
+            setIsLoggedIn(true);
+
+            // Redirect the user to the order page
+            navigate('/order');
+        } catch (error) {
+            // Handle login error, such as displaying an error message
+            console.error('Login failed:', error);
+            alert('Login failed. Please check your credentials and try again.');
         }
     };
 
@@ -79,7 +100,7 @@ const Order = () => {
             />
 
             {orderData && (
-                <table className="table table-striped table-bordered mt-2" >
+                <table className="table table-striped table-bordered mt-2">
                     <thead>
                         <tr>
                             <th scope="col">Order ID</th>
@@ -96,8 +117,8 @@ const Order = () => {
                             <td>{orderData.total}</td>
                             <td>{orderData.status}</td>
                             <td>
-                                <button className="btn btn-outline-danger" onClick={() => handleOrderCancel()}>Cancel</button>
-                                <button className="btn btn-success" onClick={() => handleOrderComplete(orderData.order_id)}>Start Order</button>
+                                <button className="btn btn-outline-danger" onClick={handleOrderCancel}>Cancel</button>
+                                <button className="btn btn-success" onClick={handleOrderComplete}>Start Order</button>
                             </td>
                         </tr>
                     </tbody>
