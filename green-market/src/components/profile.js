@@ -15,7 +15,7 @@ function Profile() {
         formData.append('image', imageFile);
 
         try {
-            const response = await fetch('/uploadimage', {
+            const response = await fetch('https://green-market-backend-2es1.onrender.com/uploadimage', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -39,7 +39,7 @@ function Profile() {
 
     const deleteImage = async () => {
         try {
-            const response = await fetch('/deleteimage', {
+            const response = await fetch('https://green-market-backend-2es1.onrender.com/deleteimage', {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`,

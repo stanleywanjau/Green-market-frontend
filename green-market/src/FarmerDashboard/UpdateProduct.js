@@ -35,7 +35,7 @@ function UpdateProductForm() {
         }
 
         try {
-            await axios.put(`/updateproduct/${productId}`, formDataToSend, {
+            await axios.put(`https://green-market-backend-2es1.onrender.com/updateproduct/${productId}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -61,7 +61,7 @@ function UpdateProductForm() {
 
 
     useEffect(()=>{
-        fetch(`/updateproduct/${productId}`,{ 
+        fetch(`https://green-market-backend-2es1.onrender.com/updateproduct/${productId}`,{ 
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
             } 

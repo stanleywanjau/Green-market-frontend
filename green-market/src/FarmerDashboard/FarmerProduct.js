@@ -11,7 +11,7 @@ function Farmerproduct(){
     const navigate=useNavigate()
 
     useEffect(() => {
-        fetch("/farmerproducts", { 
+        fetch("https://green-market-backend-2es1.onrender.com/farmerproducts", { 
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
             } 
@@ -28,7 +28,7 @@ function Farmerproduct(){
 
     const handleDelete = (productId) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            fetch(`/deleteproduct/${productId}`, {
+            fetch(`https://green-market-backend-2es1.onrender.com/deleteproduct/${productId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

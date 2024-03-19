@@ -20,7 +20,7 @@ function SignUp() {
   function handleSubmit(e) {
     e.preventDefault();
     if (username && email && password && password === passwordConfirmation) {
-      fetch("/signup", {
+      fetch("https://green-market-backend-2es1.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +64,7 @@ function SignUp() {
 
   function handleOTPSubmit(e) {
     e.preventDefault();
-    fetch("/verify", {
+    fetch("https://green-market-backend-2es1.onrender.com/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

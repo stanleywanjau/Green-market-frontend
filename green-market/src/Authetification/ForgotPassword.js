@@ -16,7 +16,7 @@ function ForgotPassword() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/forgot-password", {
+    fetch("https://green-market-backend-2es1.onrender.com/forgot-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ function ForgotPassword() {
 
   function handleChangePassword(e) {
     e.preventDefault();
-    fetch("/change-password", {
+    fetch("https://green-market-backend-2es1.onrender.com/change-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

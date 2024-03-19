@@ -21,6 +21,9 @@ function NavBar({user}) {
             </NavDropdown> */}
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/cart">Cart</Nav.Link>
+            {user && (user.role === 'farmer' || user.role === 'customer') && (
+              <Nav.Link href="/order">OrderHistory</Nav.Link>
+            )}
             {user && user.role==='farmer' ?(
               <>
               <Nav.Link href="/farmerproduct">MyProducts</Nav.Link>

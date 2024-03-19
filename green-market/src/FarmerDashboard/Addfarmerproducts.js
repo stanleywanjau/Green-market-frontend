@@ -31,7 +31,7 @@ function AddProductForm() {
             formDataToSend.append(key, formData[key]);
         }
     
-        fetch('/addproduct', {
+        fetch('https://green-market-backend-2es1.onrender.com/addproduct', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`

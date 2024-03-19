@@ -32,7 +32,7 @@ function ProductDetails({ products }) {
       }
 
     useEffect(() => {
-        fetch(`/product/${productId}`)
+        fetch(`https://green-market-backend-2es1.onrender.com/product/${productId}`)
             .then(r => r.json())
             .then(data => {
                 setProduct(data);

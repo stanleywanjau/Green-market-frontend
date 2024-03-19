@@ -22,7 +22,8 @@ import AddProductForm from './FarmerDashboard/Addfarmerproducts';
 import UpdateProductForm from './FarmerDashboard/UpdateProduct';
 import FarmerOrders from './FarmerDashboard/FarmerOrder';
 import ChatComponent from "./components/ChatComponent.js";
-import Order from './components/Order';
+import OrderHistory from './components/Order.js';
+import AboutPage from './components/AboutPage.js';
 
 
 
@@ -30,13 +31,15 @@ function App() {
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/productslist');
+        const response = await axios.get('https://green-market-backend-2es1.onrender.com/productslist');
         setProducts(response.data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -47,7 +50,7 @@ function App() {
 // console.log(user.username)
   useEffect(() => {
     const checkSession = () => {
-      fetch(`/checksession`, {
+      fetch(`https://green-market-backend-2es1.onrender.com/checksession`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('jwt')}`
@@ -153,7 +156,11 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path="/reviews/:productId" element={<ReviewComponent />} />
           <Route path='/farmdetails' element={<Farm />} />
-          <Route path='/order' element={<Order />} />
+          <Route path='/About' element={<AboutPage />} />
+          
+          {user && (user.role === 'customer' || user.role === 'farmer') && (
+            <Route path='/order' element={<OrderHistory />} />
+          )}
           
           <Route
             path="/livechat/:receiver_user_id"

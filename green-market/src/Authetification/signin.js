@@ -12,7 +12,7 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/login", {
+    fetch("https://green-market-backend-2es1.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

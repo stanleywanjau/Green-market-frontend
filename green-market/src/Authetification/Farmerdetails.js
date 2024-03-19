@@ -32,7 +32,7 @@ function Farm() {
 
     function handleFarmData(e) {
         e.preventDefault();
-        fetch('/farmer-details', {
+        fetch('https://green-market-backend-2es1.onrender.com/farmer-details', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,

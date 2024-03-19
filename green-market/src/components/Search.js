@@ -14,7 +14,7 @@ const Search = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("/productslist"); // Adjust this URL based on your backend setup
+        const response = await fetch("https://green-market-backend-2es1.onrender.com/productslist"); // Adjust this URL based on your backend setup
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }

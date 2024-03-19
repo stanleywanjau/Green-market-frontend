@@ -9,7 +9,7 @@ const FarmerOrders = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/farmerorders', { 
+    fetch('https://green-market-backend-2es1.onrender.com/farmerorders', { 
       headers: { 
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
       } 
@@ -26,7 +26,7 @@ const FarmerOrders = () => {
   }, []);
 
   const updateOrderStatus = (orderId, action) => {
-    fetch(`/updateorder/${orderId}`, { 
+    fetch(`https://green-market-backend-2es1.onrender.com/updateorder/${orderId}`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -9,10 +9,11 @@ const LiveChat = () => {
     const [newMessage, setNewMessage] = useState('');
     const [received, setReceived] = useState('');
     const { receiver_user_id } = useParams();
+    const [loading, setLoading] = useState(true); // State to track loading state
 
     const fetchMessages = async () => {
         try {
-            const response = await axios.get('/chatmessages', { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            const response = await axios.get('https://green-market-backend-2es1.onrender.com/chatmessages', { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
             setMessages(response.data);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -21,12 +22,14 @@ const LiveChat = () => {
                 position: "top-right",
                 autoClose: 2000
             });
+        } finally {
+            setLoading(false); // Set loading state to false after fetching
         }
     };
 
     const fetchSenderMessages = async () => {
         try {
-            const response = await axios.get('/chatsendermessages', { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            const response = await axios.get('https://green-market-backend-2es1.onrender.com/chatsendermessages', { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
             setReceived(response.data);
         } catch (error) {
             console.error('Error fetching sender messages:', error);
@@ -46,7 +49,7 @@ const LiveChat = () => {
     const handleMessageSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`/chatsendermessages/${receiver_user_id}`, { message_text: newMessage }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            await axios.post(`https://green-market-backend-2es1.onrender.com/chatsendermessages/${receiver_user_id}`, { message_text: newMessage }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
             setNewMessage('');
             // Display success toast
             toast.success('Message sent successfully', {
@@ -66,7 +69,7 @@ const LiveChat = () => {
 
     const handleDeleteMessage = async (messageId) => {
         try {
-            await axios.delete(`/deletemessage/${messageId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+            await axios.delete(`https://green-market-backend-2es1.onrender.com/deletemessage/${messageId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
             setMessages(messages.filter(message => message.id !== messageId));
             setReceived(received.filter(message => message.id !== messageId));
             // Display success toast
@@ -93,20 +96,28 @@ const LiveChat = () => {
 
     return (
         <div>
-            <ListGroup>
-                {combinedMessages.map(message => (
-                    <ListGroup.Item key={message.id}>
-                        <strong> {message.sender_name}</strong>: {message.message_text}
-                        <Button variant="danger" onClick={() => handleDeleteMessage(message.id)}>Delete</Button>
-                    </ListGroup.Item>
-                ))}
-            </ListGroup>
-            <Form onSubmit={handleMessageSubmit}>
-                <Form.Group>
-                    <Form.Control type="text" placeholder="Type your message..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
-                </Form.Group>
-                <Button type="submit">Send</Button>
-            </Form>
+            {loading ? (
+                <p>Loading...</p>
+            ) : combinedMessages.length === 0 ? (
+                <p>No messages</p>
+            ) : (
+                <>
+                    <ListGroup>
+                        {combinedMessages.map(message => (
+                            <ListGroup.Item key={message.id}>
+                                <strong> {message.sender_name}</strong>: {message.message_text}
+                                <Button variant="danger" onClick={() => handleDeleteMessage(message.id)}>Delete</Button>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                    <Form onSubmit={handleMessageSubmit}>
+                        <Form.Group>
+                            <Form.Control type="text" placeholder="Type your message..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
+                        </Form.Group>
+                        <Button type="submit">Send</Button>
+                    </Form>
+                </>
+            )}
         </div>
     );
 };

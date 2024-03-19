@@ -19,7 +19,7 @@ const ReviewComponent = () => {
   useEffect(() => {
     const fetchRatingCounts = async () => {
       try {
-        const response = await fetch(`/${productId}/rating-counts`);
+        const response = await fetch(`https://green-market-backend-2es1.onrender.com/${productId}/rating-counts`);
         if (!response.ok) {
           throw new Error("Failed to fetch rating counts");
         }
@@ -35,7 +35,7 @@ const ReviewComponent = () => {
 
   const fetchCurrentUser = async () => {
     try {
-      const response = await fetch("/checksession", {
+      const response = await fetch("https://green-market-backend-2es1.onrender.com/checksession", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
@@ -55,7 +55,7 @@ const ReviewComponent = () => {
 
   const handleSubmit = async (productId, rating, comment) => {
     try {
-      const response = await fetch("/reviews", {
+      const response = await fetch("https://green-market-backend-2es1.onrender.com/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const ReviewComponent = () => {
 
   const fetchReviewsForProduct = async () => {
     try {
-      const response = await fetch(`/review/${productId}`, {
+      const response = await fetch(`https://green-market-backend-2es1.onrender.com/review/${productId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
@@ -109,7 +109,7 @@ const ReviewComponent = () => {
 
   const checkPurchase = async () => {
     try {
-      const response = await fetch(`/api/orders/check-purchase/${productId}`, {
+      const response = await fetch(`https://green-market-backend-2es1.onrender.com/api/orders/check-purchase/${productId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
@@ -129,7 +129,7 @@ const ReviewComponent = () => {
 
   const deleteReview = async (review_id) => {
     try {
-      const response = await fetch(`/deleteReview/${review_id}`, {
+      const response = await fetch(`https://green-market-backend-2es1.onrender.com/deleteReview/${review_id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwt")}`,
