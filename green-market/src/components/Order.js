@@ -41,6 +41,8 @@ const Order = () => {
                 current_time: formatDate(orderData.date),
                 total_order: orderData.total_order
             };
+            console.log('requestData:', requestData);
+
     
             //  POST request to the endpoint
             axios.post('/placeorder', requestData)
