@@ -93,6 +93,10 @@ function App() {
 
   return (
     <CartProvider>
+      {loading ? ( // Render loading message if loading is true
+        <div>Loading...</div>
+      ) : (
+        <>
        <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -171,7 +175,9 @@ function App() {
 
         {shouldRenderNavbar && <Footer />}
       </div>
-    </CartProvider>
+    </>
+    )}
+  </CartProvider>
   );
 }
 
