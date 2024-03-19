@@ -93,18 +93,7 @@ function AddProductForm() {
 
     return (
         <Form onSubmit={handleSubmit}>
-             <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover={false}
-        theme="light"
-        
-        />
+             
             <Form.Group controlId="name">
                 <Form.Label>Name</Form.Label>
                 <Form.Control

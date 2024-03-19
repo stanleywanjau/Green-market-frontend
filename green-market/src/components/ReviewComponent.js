@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import "./Review.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReviewComponent = () => {
   const [hasPurchased, setHasPurchased] = useState(false);
@@ -72,9 +74,13 @@ const ReviewComponent = () => {
 
       alert("Review successfully posted");
       fetchReviewsForProduct();
+      setNewComment('')
+      setNewRating(0)
+      toast.success('Review successfully posted');
     } catch (error) {
       console.error("Error submitting review:", error);
       alert("Failed to submit review");
+      toast.error('Failed to submit review');
     }
   };
 
@@ -136,9 +142,11 @@ const ReviewComponent = () => {
 
       alert("Review deleted successfully");
       fetchReviewsForProduct();
+      toast.success('Review deleted successfully');
     } catch (error) {
       console.error("Error deleting review:", error);
       alert("Failed to delete review");
+      toast.error('Failed to delete review');
     }
   };
 
@@ -166,74 +174,70 @@ const ReviewComponent = () => {
         ))}
       </div>
       <div className="reviews-container">
-        {isLoading ? (
-          <p className="loading-text">Loading reviews...</p>
-        ) : error ? (
-          <p className="error-text">{error}</p>
-        ) : reviews.length === 0 ? (
-          <p className="no-reviews-text">No reviews yet.</p>
-        ) : (
-          <>
-            {hasPurchased && (
-              <div className="review-form">
-                <h2 className="form-heading">Add Your Review</h2>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit(productId, rating, comment);
-                  }}
-                  className="submit-form"
-                >
+        <div className="review-form">
+          {hasPurchased && (
+            <>
+              <h2 className="form-heading">Add Your Review</h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit(productId, rating, comment);
+                }}
+                className="submit-form"
+              >
+                <StarRatings
+                  rating={Number(rating)}
+                  starRatedColor="gold"
+                  changeRating={setNewRating}
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="30px"
+                  starSpacing="5px"
+                />
+                <textarea
+                  className="comment-textarea"
+                  value={comment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Write your review"
+                  required
+                />
+                <button type="submit" className="submit-btn">
+                  Submit Review
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+        <ul className="review-list">
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <li key={review.id} className="review-item">
+                <h3 className="review-rating">
+                  Rating:
                   <StarRatings
-                    rating={Number(rating)}
+                    rating={review.rating}
                     starRatedColor="gold"
-                    changeRating={setNewRating}
                     numberOfStars={5}
-                    name="rating"
-                    starDimension="30px"
-                    starSpacing="5px"
+                    starDimension="20px"
+                    starSpacing="3px"
+                    isAggregateRating={true}
                   />
-                  <textarea
-                    className="comment-textarea"
-                    value={comment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Write your review"
-                    required
-                  />
-                  <button type="submit" className="submit-btn">
-                    Submit Review
+                </h3>
+                <p className="review-comment">{review.comments}</p>
+                {currentUser && review.customer_id === currentUser.id && (
+                  <button
+                    onClick={() => deleteReview(review.id)}
+                    className="delete-btn"
+                  >
+                    Delete
                   </button>
-                </form>
-              </div>
-            )}
-            <ul className="review-list">
-              {reviews?.map((review) => (
-                <li key={review.id} className="review-item">
-                  <h3 className="review-rating">
-                    Rating:
-                    <StarRatings
-                      rating={review.rating}
-                      starRatedColor="gold"
-                      numberOfStars={5}
-                      starDimension="20px"
-                      starSpacing="3px"
-                      isAggregateRating={true}
-                    />
-                  </h3>
-                  <p className="review-comment">{review.comments}</p>
-                  {currentUser && review.customer_id === currentUser.id && (
-                    <button
-                      onClick={() => deleteReview(review.id)}
-                      className="delete-btn"
-                    >
-                      Delete
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+                )}
+              </li>
+            ))
+          ) : (
+            <p className="no-reviews-text">No reviews available for this product.</p>
+          )}
+        </ul>
       </div>
     </div>
   );

@@ -11,14 +11,14 @@ function NavBar({user}) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown title="category" id="basic-nav-dropdown">
-              <NavDropdown.Item >Action</NavDropdown.Item>
+            {/* <NavDropdown title="category" id="basic-nav-dropdown">
+              <NavDropdown.Item >Grain</NavDropdown.Item>
               <NavDropdown.Item >
-                Another action
+                Fruits
               </NavDropdown.Item>
-              <NavDropdown.Item >Something</NavDropdown.Item>
+              <NavDropdown.Item >Dair</NavDropdown.Item>
               
-            </NavDropdown>
+            </NavDropdown> */}
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/cart">Cart</Nav.Link>
             {user && user.role==='farmer' ?(
