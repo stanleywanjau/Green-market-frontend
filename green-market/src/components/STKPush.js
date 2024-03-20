@@ -7,14 +7,14 @@ function STKPushComponent() {
  
   // Fetch orders on component mount
   useEffect(() => {
-    fetch("http://localhost:5555/customerorders") // Adjust URL as needed
+    fetch("https://green-market-backend-2es1.onrender.com/customerorders") // Adjust URL as needed
       .then((response) => response.json())
       .then((data) => setOrders(data))
       .catch((error) => console.error("Error fetching orders:", error));
   }, []);
  
   const triggerPayment = () => {
-    fetch(`http://localhost:5000/trigger-payment`, {
+    fetch(`https://green-market-backend-2es1.onrender.com/trigger-payment`, {
       // Removed orderId from URL, now sending in body
       method: "POST",
       headers: {
@@ -34,7 +34,7 @@ function STKPushComponent() {
     <div>
       <h1>Orders</h1>
       <ul>
-        {orders.map((order) => (
+        {orders?.map((order) => (
           <li key={order.order_id} style={{ marginBottom: "10px" }}>
             Order ID: {order.order_id}, Date: {order.order_date}, Total Price:{" "}
             {order.total_price}, Status: {order.order_status}

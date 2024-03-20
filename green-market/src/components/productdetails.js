@@ -84,16 +84,16 @@ function ProductDetails({ products }) {
                                 {inCart(product.id) ? 'Remove from cart' : 'Add to cart'}
                             </button>
                             {/* console.log({product.farmer_id}) */}
-                            <button className='btn btn-success' onClick={()=>navigateToLiveChart(product.farmer_id)}>chat with farmer</button>
-                            <button className='btn btn-outline-dark'  onClick={handleCartClick}>Jump to cart</button>
-                            <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
-                            <button className="btn btn-secondary" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
+                            <button className='btn btn-success m-2' onClick={()=>navigateToLiveChart(product.farmer_id)}>chat with farmer</button>
+                            <button className='btn btn-outline-dark m-2'  onClick={handleCartClick}>Jump to cart</button>
+                            <button className="btn btn-secondary m-2" onClick={() => updateItemQuantity(productId, product.quantity - 1)}>-</button>
+                            <button className="btn btn-secondary m-2" onClick={() => updateItemQuantity(productId, product.quantity + 1)}>+</button>
                         </div>
                     </div>
                 </div>
                 <div className='selected-products'>
                     {selectedProducts.map((product) => (
-                        <div key={product.id} style={{ marginLeft: "70px", justifyContent: "center" }} onClick={()=>navigateToProductDetails(product.id)} className="list-group">
+                        <div key={product.id} style={{ marginLeft: "70px", justifyContent: "center" }} onClick={()=>navigateToProductDetails(product.id)} className="list-group p-2">
                             <a href="#" className="list-group-item list-group-item-action" aria-current="true">
                                 <div className="d-flex w-100 justify-content-between">
                                     <h5 className="mb-1">{product.name}</h5>

@@ -159,7 +159,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path="/reviews/:productId" element={<ReviewComponent />} />
-          <Route path='/farmdetails' element={<Farm />} />
+          <Route path='/farmdetails' element={<Farm />} />          
           <Route path='/About' element={<AboutPage />} />
           
           {user && (user.role === 'customer' || user.role === 'farmer') && (

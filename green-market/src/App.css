@@ -66,6 +66,14 @@
   
   
 }
+.search-select{
+  margin-left: 0px;
+  width:80px;
+  height:45px;
+
+  
+  
+}
 .search-input:hover{
   color: black;
 }

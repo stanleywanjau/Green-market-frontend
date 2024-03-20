@@ -7,18 +7,9 @@ function NavBar({user}) {
   return (
     <Navbar expand="lg" className="bg-success">
       <Container>
-        <Navbar.Brand href="/">Green-Market</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {/* <NavDropdown title="category" id="basic-nav-dropdown">
-              <NavDropdown.Item >Grain</NavDropdown.Item>
-              <NavDropdown.Item >
-                Fruits
-              </NavDropdown.Item>
-              <NavDropdown.Item >Dair</NavDropdown.Item>
-              
-            </NavDropdown> */}
+        <Navbar.Collapse id="basic-navbar-nav" >
+          <Nav className="me-auto gap-sm-5">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/cart">Cart</Nav.Link>
             {user && (user.role === 'farmer' || user.role === 'customer') && (
@@ -31,6 +22,7 @@ function NavBar({user}) {
               </>
             ):null}
             {/* {user?.image && <img className='img' src={user.image} alt='Profile' />} */}
+          <Nav.Link href="/About">About us</Nav.Link>
           <NavDropdown title={user?.image ? (
                             <img className='img-profile' src={user.image} alt="/"/>
                             ) : (
@@ -44,7 +36,6 @@ function NavBar({user}) {
               <Nav.Link href="/profile">Edit profile</Nav.Link>
             </div>
           </NavDropdown>
-          <Nav.Link href="/About">About us</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         

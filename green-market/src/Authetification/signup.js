@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Authetification.css"
-
-
+import "./Authetification.css";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 function SignUp() {
   const [username, setUsername] = useState("");
@@ -19,6 +19,7 @@ function SignUp() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setError(null); // Clear previous errors
     if (username && email && password && password === passwordConfirmation) {
       fetch("https://green-market-backend-2es1.onrender.com/signup", {
         method: "POST",
@@ -81,24 +82,21 @@ function SignUp() {
     .then(r => r.json())
     .then(data => {
       if (data.access_token) {
-        localStorage.setItem('jwt',data.access_token)
+        localStorage.setItem('jwt', data.access_token);
         if (role === 'farmer') {
           navigate('/farmdetails'); 
         } else {
           navigate('/');
         }
       } else {
-        
         setError(data.message || 'Registration failed');
       }
     })
     .catch(error => {
-      // Handle fetch error
       console.error('Error:', error);
       setError('An error occurred. Please try again later.');
     });
   }
-  
   
   if (emailVerification) {
     return (
@@ -122,19 +120,14 @@ function SignUp() {
               name="email"
               value={emailVerification.email}
             />
-            <button type="submit">Verfiy Me</button>
+            <button type="submit">Verify Me</button>
           </form>
         </div>
       </div>
     );
   }
 
-  
-
-
-
   return (
-    // <div className="signup-page " >
     <div className='form-get-in '>
       <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -164,29 +157,30 @@ function SignUp() {
           {errors.email && <div className='error'>{errors.email}</div>}
         </div>
         <div>
-        <label htmlFor='Role'>Role</label>
-        <select
+          <label htmlFor='Role'>Role</label>
+          <select
             id='Role'
-            type='role'
             name='Role'
             value={role}
             onChange={(e) => setRole(e.target.value)}
             required
-        >
+          >
             <option value=''>Select Role</option>
             <option value='customer'>Customer</option>
             <option value='farmer'>Farmer</option>
-        </select>
+          </select>
         </div>
-        <label htmlFor="contact">Contact</label>
-                        <input
-                            type="text"
-                            id="contact"
-                            name="contact"
-                            value={contact}
-                            onChange={(e) => setContact(e.target.value)}
-                            required
-                        />
+        <div>
+          <label htmlFor='contact'>Contact</label>
+          <PhoneInput
+            international
+            className ='number'
+            defaultCountry="KE"
+            value={contact}
+            onChange={setContact}
+            required
+          />
+        </div>
         <div>
           <label htmlFor='password'>Password</label>
           <input
@@ -211,29 +205,28 @@ function SignUp() {
           />
           {errors.passwordConfirmation && <div className='error'>{errors.passwordConfirmation}</div>}
         </div>
-        <button class="cssbuttons-io-button">
-        SignUp
-        <div class="icon">
+        <button className="cssbuttons-io-button" type="submit">
+          Sign Up
+          <div className="icon">
             <svg
-            height="24"
-            width="24"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              width="24"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
-            <path d="M0 0h24v24H0z" fill="none"></path>
-            <path
+              <path d="M0 0h24v24H0z" fill="none"></path>
+              <path
                 d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
                 fill="currentColor"
-            ></path>
+              ></path>
             </svg>
-        </div>
+          </div>
         </button>
       </form>
       <div>
         <p>Already have an account? <Link to='/login'>Log in</Link></p>
       </div>
     </div>
-    // </div>
   );
 }
 
