@@ -43,7 +43,7 @@ const LiveChat = () => {
 
     useEffect(() => {
         fetchMessages();
-        fetchSenderMessages();
+        fetchSenderMessages(); // Fetch sender messages on every render
     }, []);
 
     const handleMessageSubmit = async (e) => {
@@ -56,7 +56,7 @@ const LiveChat = () => {
                 position: "top-right",
                 autoClose: 2000
             });
-            fetchSenderMessages();
+            fetchSenderMessages(); // Fetch sender messages after sending a message
         } catch (error) {
             console.error('Error sending message:', error);
             // Display error toast
@@ -98,8 +98,6 @@ const LiveChat = () => {
         <div>
             {loading ? (
                 <p>Loading...</p>
-            ) : combinedMessages.length === 0 ? (
-                <p>No messages</p>
             ) : (
                 <>
                     <ListGroup>

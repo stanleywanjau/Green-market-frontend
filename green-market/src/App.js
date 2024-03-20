@@ -94,7 +94,14 @@ function App() {
   return (
     <CartProvider>
       {loading ? ( // Render loading message if loading is true
-        <div>Loading...</div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <a className="green loader" style={{ marginRight: '5px' }}>
+            Green
+          </a>
+          <p className="market loader"  style={{ animation: 'fadeIn 0.5s ease-in-out forwards' }}>Market</p>
+        </div>
+      </div>
       ) : (
         <>
        <ToastContainer
@@ -179,6 +186,8 @@ function App() {
     )}
   </CartProvider>
   );
-}
+};
 
-export default App;
+// ReactDOM.render(<App />, document.getElementById('root'));
+export default App
+

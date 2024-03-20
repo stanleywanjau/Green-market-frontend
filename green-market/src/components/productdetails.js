@@ -71,7 +71,7 @@ function ProductDetails({ products }) {
                 <div className='product-details' style={{ marginLeft: "50px" }}>
                     <h3 className='product-title'>{product.name}</h3>
                     <div className='product-category'>Category: {product.category}</div>
-                    <div className='product-price'>{product.price}</div>
+                    <div className='product-price'>KSH{product.price}</div>
                     <div className='product-stock'><span>stock available:</span><br />{product.quantity_available}</div>
                     <div className='product-description'><span>Description :</span><br />{product.description}</div>
                     <ReviewComponent/>
@@ -99,7 +99,7 @@ function ProductDetails({ products }) {
                                     <h5 className="mb-1">{product.name}</h5>
                                 </div>
                                 <img src={product.image} className="" alt="" style={{ height: '7rem', width: "7rem" }} />
-                                <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD', marginLeft: "100px" })}</p>
+                                <p className="mb-1">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'KSH', marginLeft: "100px" })}</p>
                                 <small> </small>
                                 <small>{product.description}</small>
                             </a>
