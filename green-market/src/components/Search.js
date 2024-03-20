@@ -77,7 +77,7 @@ const Search = () => {
         className="search-input"
         style={{ marginRight: "10px" }}
       />
-      <select value={searchType} onChange={handleSearchTypeChange}>
+      <select value={searchType} onChange={handleSearchTypeChange}  className="search-select">
         <option value="name">Name</option>
         <option value="category">Category</option>
       </select>

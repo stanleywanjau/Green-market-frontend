@@ -78,12 +78,10 @@ const Cart = () => {
                   </td>
                   <td>Quantity ({item.quantity})</td>
                   <td>
-                    <button className="btn btn-outline-danger" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
-                    <button className="btn btn-outline-success" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</button>
-                    <button className="btn btn-success" onClick={() => removeItem(item.id)}>Remove Item</button>
-                    <button className="btn btn-success" onClick={() => handlePlaceOrder(item.id, item.quantity)} disabled={orderPlaced}>
-                      {orderPlaced ? "Order Placed" : "Place Order"}
-                    </button>
+                    <button className="btn btn-outline-danger m-2" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
+                    <button className="btn btn-outline-success m-2" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</button>
+                    <button className="btn btn-success m-2" onClick={() => removeItem(item.id)}>Remove Item</button>
+                    <button className="btn btn-success m-2" onClick={() => handlePlaceOrder(item.id, item.quantity)}>Place Order</button>
                   </td>
                 </tr>
               );
@@ -97,8 +95,8 @@ const Cart = () => {
         </div>
       )}
       <div className="cart-below">
-        <button className="btn btn-success" onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}>Clear Cart</button>
-        <button className="btn btn-outline-secondary" onClick={navigateHome}>Continue Shopping</button>
+        <button className="btn btn-success m-2" onClick={() => window.confirm("Are you sure you want to clear the cart?") && emptyCart()}>Clear Cart</button>
+        <button className="btn btn-outline-secondary m-2" onClick={navigateHome}>Continue Shopping</button>
       </div>
     </div>
   );

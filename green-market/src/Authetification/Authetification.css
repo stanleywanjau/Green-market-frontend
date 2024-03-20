@@ -358,7 +358,8 @@
 .form-get-in input[type="text"],
 .form-get-in input[type="password"] ,
 .form-get-in input[type="email"],
-.form-get-in select[type="role"]{
+.form-get-in select,
+.number {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
