@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Image from 'react-bootstrap/Image';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function NavBar({user}) {
@@ -23,26 +24,18 @@ function NavBar({user}) {
             ):null}
             {/* {user?.image && <img className='img' src={user.image} alt='Profile' />} */}
           <Nav.Link href="/About">About us</Nav.Link>
-          <NavDropdown title={user?.image ? (
+          <Nav.Link href="/profile">{user?.image ? (<Image src={user.image} roundedCircle className='img-profile'/>):(<Image src="https://iili.io/JVksC6Q.png" roundedCircle className='img-profile' />)}</Nav.Link>
+
+          {/* <NavDropdown title={user?.image ? (
                             <img className='img-profile' src={user.image} alt="/"/>
                             ) : (
                             <img className='img-profile' src="https://iili.io/JVksC6Q.png" alt="/" />
                             )} > 
           
-            <div className='profile-container p-2' >
-              <div>Username:{user?.username}</div>
-              <div>Email:{user?.email}</div>
-              <div>contact:{user?.contact}</div>
-              {user?.role === 'farmer' && (
-                  <div>
-                    Farm Name: {user.farmer && user.farmer.farm_name}
-                    <br />
-                    Location: {user.farmer && user.farmer.location}
-                  </div>
-                )}
+            
               <Nav.Link href="/profile">Edit profile</Nav.Link>
-            </div>
-          </NavDropdown>
+            
+          </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
         

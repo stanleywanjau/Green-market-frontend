@@ -280,7 +280,7 @@ justify-content: space-around;
 .img-choosen{
   border: 1px solid #000;
     border-radius: 50px;
-    height: 150px;
+    height: 100px;
     width: 150px;
 }
 .product-title{
@@ -536,4 +536,14 @@ justify-content: space-around;
 
 .why-choose-section{
   color:#000;
+}
+
+
+
+.profile-container {
+  display: flex;
+}
+
+.profile-add {
+  margin-left:100px; /* This pushes the profile-add div to the right */
 }

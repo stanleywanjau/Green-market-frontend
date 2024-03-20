@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Button, Image } from 'react-bootstrap';
+import { Form, Button, Image ,Card} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Profile() {
+function Profile({user}) {
     const [imageFile, setImageFile] = useState(null);
     const navigate=useNavigate()
     const [previewImage, setPreviewImage] = useState(null);
@@ -92,23 +92,46 @@ function Profile() {
     };
 
     return (
-        <div>
-            <Form>
-                <Form.Group controlId="image">
+        <div className='profile-container'>
+        <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={user?.image} />
+        <Card.Body>
+          <Card.Title>{user?.username}</Card.Title>
+          <Card.Body>
+          Email:{user?.email}
+          </Card.Body>
+          <Card.Body>
+          Contact:{user?.contact}
+          </Card.Body>
+          {user?.role === 'farmer' && (
+                  <Card.Body>
+                    Farm Name: {user.farmer && user.farmer.farm_name}
+                    <br />
+                    Location: {user.farmer && user.farmer.location}
+                  </Card.Body>
+                )}
+
+          
+        </Card.Body>
+      </Card>
+         <div className='profile-add p-5'>
+             <Form>
+                 <Form.Group controlId="image">
                     <Form.Label>Image</Form.Label>
                     {previewImage ? ( // If preview image exists, render it
-                        <Image src={previewImage} className='img-choosen' alt="Preview" thumbnail />
+                        <Image src={previewImage} className='img-choosen p-2' alt="Preview" thumbnail />
                     ) : (
-                        <Image src="https://iili.io/JVksC6Q.png"  className='img-choosen' alt="Placeholder" thumbnail /> // Otherwise, render the placeholder image
+                        <Image src="https://iili.io/JVksC6Q.png"  className='img-choosen p-2' alt="Placeholder" thumbnail /> // Otherwise, render the placeholder image
                     )}
                     <Form.Control
+                    className='p-2'
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
                         required
                     />
                 </Form.Group>
-                <Button variant="primary" onClick={uploadImage} className='m-2'>
+                <Button variant="primary" onClick={uploadImage} className='m-2 p-2'>
                     Upload Image
                 </Button>
                 <Button variant="danger" onClick={deleteImage} className='m-2'>
@@ -129,6 +152,7 @@ function Profile() {
                 draggable
                 pauseOnHover
             />
+        </div>
         </div>
     );
 }
