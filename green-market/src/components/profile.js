@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Profile() {
     const [imageFile, setImageFile] = useState(null);
+    const navigate=useNavigate()
     const [previewImage, setPreviewImage] = useState(null);
 
     const handleImageChange = (event) => {
@@ -64,6 +66,30 @@ function Profile() {
             toast.error('Error deleting image: ' + error.message);
         }
     };
+    const handleDelete = (productId) => {
+        if (window.confirm('Are you sure you want to delete this Account?')) {
+            fetch(`https://green-market-backend-2es1.onrender.com/delete-account`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // setProducts((products) => products.filter((product) => product.id !== productId));
+                localStorage.removeItem('jwt');
+                navigate('/')
+                toast.success('Account deleted successfully'); // Display success toast
+            })
+            .catch(error => {
+                console.error('Error deleting Account:', error);
+                toast.error('Failed to delete Account'); // Display error toast
+            });
+        }
+    };
 
     return (
         <div>
@@ -87,6 +113,9 @@ function Profile() {
                 </Button>
                 <Button variant="danger" onClick={deleteImage}>
                     Delete Image
+                </Button>
+                <Button variant="danger" onClick={handleDelete}>
+                    Delete Account
                 </Button>
             </Form>
             <ToastContainer
