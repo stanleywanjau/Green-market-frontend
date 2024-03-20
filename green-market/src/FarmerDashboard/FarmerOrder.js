@@ -9,6 +9,7 @@ const FarmerOrders = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     fetch('https://green-market-backend-2es1.onrender.com/farmerorders', { 
       headers: { 
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -67,33 +68,38 @@ const FarmerOrders = () => {
       />
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <table className="table table-striped table-bordered mt-3">
-        <thead>
-          <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Order Date</th>
-            <th scope="col">Total Price</th>
-            <th scope="col">Order Status</th>
-            <th scope="col">Customer usename</th>
-            <th scope="col">Action</th> 
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.order_id}>
-              <td>{order.order_id}</td>
-              <td data-label="order date">{order.order_date}</td>
-              <td data-label="total price">{order.total_price}</td>
-              <td data-label="total status">{order.order_status}</td>
-              <td data-label="customer username">{order.customer_username}</td>
-              <td>
-                <button onClick={() => updateOrderStatus(order.order_id, 'cancel')}  type="button" className="btn btn-success">Cancel</button>
-                <button onClick={() => updateOrderStatus(order.order_id, 'complete')}  type="button" className="btn btn-success">Complete Order</button>
-              </td>
+      {orders.length === 0 && !loading && (
+        <p>No orders available. Please wait for a customer to make an order.</p>
+      )}
+      {orders.length > 0 && (
+        <table className="table table-striped table-bordered mt-3">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Order Date</th>
+              <th scope="col">Total Price</th>
+              <th scope="col">Order Status</th>
+              <th scope="col">Customer usename</th>
+              <th scope="col">Action</th> 
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
+                <td data-label="order date">{order.order_date}</td>
+                <td data-label="total price">{order.total_price}</td>
+                <td data-label="total status">{order.order_status}</td>
+                <td data-label="customer username">{order.customer_username}</td>
+                <td>
+                  <button onClick={() => updateOrderStatus(order.order_id, 'cancel')}  type="button" className="btn btn-success">Cancel</button>
+                  <button onClick={() => updateOrderStatus(order.order_id, 'complete')}  type="button" className="btn btn-success">Complete Order</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import default styles
+import { Form, Button, Image } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Profile() {
     const [imageFile, setImageFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
 
     const handleImageChange = (event) => {
-        setImageFile(event.target.files[0]);
+        const selectedImage = event.target.files[0];
+        if (selectedImage) {
+            setImageFile(selectedImage);
+            setPreviewImage(URL.createObjectURL(selectedImage));
+        }
     };
 
     const uploadImage = async () => {
@@ -26,14 +31,14 @@ function Profile() {
             if (response.ok) {
                 const data = await response.json();
                 window.location.reload();
-                toast.success('Image uploaded successfully'); // Display success toast
+                toast.success('Image uploaded successfully');
             } else {
                 const errorData = await response.json();
-                toast.error('Error uploading image: ' + errorData.message); // Display error toast
+                toast.error('Error uploading image: ' + errorData.message);
             }
         } catch (error) {
             console.error('Error uploading image:', error);
-            toast.error('Error uploading image: ' + error.message); // Display error toast
+            toast.error('Error uploading image: ' + error.message);
         }
     };
 
@@ -48,15 +53,15 @@ function Profile() {
 
             if (response.ok) {
                 console.log('Image deleted successfully');
-                toast.success('Image deleted successfully'); // Display success toast
+                toast.success('Image deleted successfully');
                 window.location.reload();
             } else {
                 const errorData = await response.json();
-                toast.error('Error deleting image: ' + errorData.message); // Display error toast
+                toast.error('Error deleting image: ' + errorData.message);
             }
         } catch (error) {
             console.error('Error deleting image:', error);
-            toast.error('Error deleting image: ' + error.message); // Display error toast
+            toast.error('Error deleting image: ' + error.message);
         }
     };
 
@@ -65,6 +70,11 @@ function Profile() {
             <Form>
                 <Form.Group controlId="image">
                     <Form.Label>Image</Form.Label>
+                    {previewImage ? ( // If preview image exists, render it
+                        <Image src={previewImage} className='img-choosen' alt="Preview" thumbnail />
+                    ) : (
+                        <Image src="https://iili.io/JVksC6Q.png"  className='img-choosen' alt="Placeholder" thumbnail /> // Otherwise, render the placeholder image
+                    )}
                     <Form.Control
                         type="file"
                         accept="image/*"

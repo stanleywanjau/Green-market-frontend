@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "react-use-cart";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
   const {
@@ -13,6 +15,7 @@ const Cart = () => {
     emptyCart,
   } = useCart();
   const navigate = useNavigate();
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const handlePlaceOrder = async (productId, quantity) => {
     const orderData = {
@@ -39,14 +42,15 @@ const Cart = () => {
       });
 
       if (response.ok) {
-        // Order placed successfully, you can handle the response as needed
-        console.log('Order placed successfully');
+        // Order placed successfully
+        setOrderPlaced(true);
+        toast.success('Order placed successfully');
       } else {
         // Handle error case
-        console.error('Failed to place order');
+        toast.error('Failed to place order');
       }
     } catch (error) {
-      console.error('Error placing order:', error);
+      toast.error('Error placing order:', error);
     }
   };
 
@@ -70,14 +74,16 @@ const Cart = () => {
                   </td>
                   <td>{item.title}</td>
                   <td>
-                    <p>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                    <p>{item.price.toLocaleString('en-US', { style: 'currency', currency: 'KSH' })}</p>
                   </td>
                   <td>Quantity ({item.quantity})</td>
                   <td>
                     <button className="btn btn-outline-danger" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
                     <button className="btn btn-outline-success" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</button>
                     <button className="btn btn-success" onClick={() => removeItem(item.id)}>Remove Item</button>
-                    <button className="btn btn-success" onClick={() => handlePlaceOrder(item.id, item.quantity)}>Place Order</button>
+                    <button className="btn btn-success" onClick={() => handlePlaceOrder(item.id, item.quantity)} disabled={orderPlaced}>
+                      {orderPlaced ? "Order Placed" : "Place Order"}
+                    </button>
                   </td>
                 </tr>
               );
@@ -87,7 +93,7 @@ const Cart = () => {
       </div>
       {cartTotal && (
         <div>
-          <h2>Total Price: {cartTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h2>
+          <h2>Total Price: {cartTotal.toLocaleString('en-US', { style: 'currency', currency: 'KSH' })}</h2>
         </div>
       )}
       <div className="cart-below">
