@@ -24,7 +24,7 @@ function NavBar({user}) {
             ):null}
             {/* {user?.image && <img className='img' src={user.image} alt='Profile' />} */}
           <Nav.Link href="/About">About us</Nav.Link>
-          <Nav.Link href="/profile">{user?.image ? (<Image src={user.image} roundedCircle className='img-profile'/>):(<Image src="https://iili.io/JVksC6Q.png" roundedCircle className='img-profile' />)}</Nav.Link>
+          {user ? (<Nav.Link href="/profile">{user?.image ? (<Image src={user.image} roundedCircle className='img-profile'/>):(<Image src="https://iili.io/JVksC6Q.png" roundedCircle className='img-profile' />)}</Nav.Link>):null}
 
           {/* <NavDropdown title={user?.image ? (
                             <img className='img-profile' src={user.image} alt="/"/>
