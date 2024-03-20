@@ -29,10 +29,17 @@ function NavBar({user}) {
                             <img className='img-profile' src="https://iili.io/JVksC6Q.png" alt="/" />
                             )} > 
           
-            <div className='profile-container' >
+            <div className='profile-container p-2' >
               <div>Username:{user?.username}</div>
               <div>Email:{user?.email}</div>
               <div>contact:{user?.contact}</div>
+              {user?.role === 'farmer' && (
+                  <div>
+                    Farm Name: {user.farmer && user.farmer.farm_name}
+                    <br />
+                    Location: {user.farmer && user.farmer.location}
+                  </div>
+                )}
               <Nav.Link href="/profile">Edit profile</Nav.Link>
             </div>
           </NavDropdown>

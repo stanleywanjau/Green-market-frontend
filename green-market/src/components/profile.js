@@ -108,13 +108,13 @@ function Profile() {
                         required
                     />
                 </Form.Group>
-                <Button variant="primary" onClick={uploadImage}>
+                <Button variant="primary" onClick={uploadImage} className='m-2'>
                     Upload Image
                 </Button>
-                <Button variant="danger" onClick={deleteImage}>
+                <Button variant="danger" onClick={deleteImage} className='m-2'>
                     Delete Image
                 </Button>
-                <Button variant="danger" onClick={handleDelete}>
+                <Button variant="danger" onClick={handleDelete} className='m-2'>
                     Delete Account
                 </Button>
             </Form>
