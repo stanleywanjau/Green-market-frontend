@@ -75,6 +75,7 @@ function SignUp() {
         email,
         role,
         otp,
+        contact,
         password,
         password_confirmation: passwordConfirmation,
       }),

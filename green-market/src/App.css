@@ -214,7 +214,7 @@ justify-content: space-around;
   }
 .product-image{
     border-radius: 10px;
-    width:30%;
+    width:50vh;
     height:500px
     
     ;
