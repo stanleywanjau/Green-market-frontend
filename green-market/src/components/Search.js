@@ -81,7 +81,7 @@ const Search = () => {
         <option value="name">Name</option>
         <option value="category">Category</option>
       </select>
-      <AiOutlineShoppingCart size={40} className="cursor-pointer" onClick={handleCartClick} />
+      <AiOutlineShoppingCart size={40} className="cursor-pointer m-3" onClick={handleCartClick} />
       {totalUniqueItems}
       {showSuggestions && filteredProducts.length > 0 && (
         <div
